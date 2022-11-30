@@ -41,6 +41,12 @@ export const buildTranslations = (absLangPath: string, pluginConfiguration: Tran
     // # Pre-Define: Initial Value for reducer
     const all = currentXlation;
 
+    // # Configure: Namespaces
+    if (typeof pluginConfiguration.namespace == 'string' && pluginConfiguration.namespace.length > 0) {
+      // # Append configured namespace
+      pathSplit.splice(1, 0, pluginConfiguration.namespace);
+    }
+
     // # Generate: Nested Object from array
     const currentTranslationStructure =
       fileExt == '.php' ? pathSplit.reverse().reduce((all, item) => ({ [item]: all }), all) : currentXlation;

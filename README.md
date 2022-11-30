@@ -4,7 +4,7 @@
 
 <p align="center">
     <b>vite-plugin-laravel-translations</b> is a <b>Vite</b> plugin that retrieves <b>Laravel</b> Framework translation
-    files and makes them available as a global variable for use with any other <b>i18n</b> framework plugin such as <a href="https://www.npmjs.com/package/vue-i18n">vue-i18n</a> for <b>Vue</b>.
+    files and makes them available as a global variable for use with any other <b>i18n</b> framework plugin such as <a href="https://www.npmjs.com/package/vue-i18n">vue-i18n</a> for <b>Vue</b> or <a href="https://www.npmjs.com/package/react-i18next">react-i18next</a> for <b>React</b>.
 </p>
 
 ## Installation
@@ -93,6 +93,74 @@ new Vue({
   render: (h) => h(App),
 }).$mount('#app');
 ...
+```
+
+## Usage in React
+This example uses `i18nnext` and `react-i18next` packages. Refer to <a href="https://dev.to/adrai/how-to-properly-internationalize-a-react-application-using-i18next-3hdb#getting-started">https://dev.to/adrai/how-to-properly-internationalize-a-react-application-using-i18next-3hdb#getting-started</a> for extended example.
+
+
+### <b>Vite Config</b>
+```js
+import laravelTranslations from 'vite-plugin-laravel-translations';
+
+export default defineConfig({
+	...
+	plugins: [
+		laravelTranslations({
+			// # Declare: namespace
+			namespace: 'translation',
+		}),
+	],
+});
+```
+
+### <b>Javascript</b>
+```js
+// i18n.js
+import i18n from 'i18next';
+import { initReactI18next } from 'react-i18next';
+import LanguageDetector from 'i18next-browser-languagedetector';
+
+i18n
+  // detect user language
+  // learn more: https://github.com/i18next/i18next-browser-languageDetector
+  .use(LanguageDetector)
+  // pass the i18n instance to react-i18next.
+  .use(initReactI18next)
+  // init i18next
+  // for all options read: https://www.i18next.com/overview/configuration-options
+  .init({
+    debug: true,
+    fallbackLng: 'en',
+    interpolation: {
+      escapeValue: false, // not needed for react as it escapes by default
+    },
+    resources: {
+      en: {
+        translation: {
+          // here we will place our translations...
+        }
+      }
+    }
+  });
+
+export default i18n;
+
+
+// index.js (React >= 18.0.0)
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import './index.css';
+import App from './App';
+
+import './i18n';
+
+const root = createRoot(document.getElementById('root'))
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
 ```
 
 ## Usage in JavaScript/NodeJS
