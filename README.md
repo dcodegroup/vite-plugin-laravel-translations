@@ -135,13 +135,7 @@ i18n
     interpolation: {
       escapeValue: false, // not needed for react as it escapes by default
     },
-    resources: {
-      en: {
-        translation: {
-          // here we will place our translations...
-        }
-      }
-    }
+    resources: LARAVEL_TRANSLATIONS
   });
 
 export default i18n;
