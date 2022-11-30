@@ -34,7 +34,7 @@ export default defineConfig({
 		laravelTranslations({
 			// # TBC: To include JSON files
 			includeJson: false,
-			// # TBC: Declare namespace (string|boolean)
+			// # Declare: namespace (string|false)
 			namespace: false,
 		}),
 	],

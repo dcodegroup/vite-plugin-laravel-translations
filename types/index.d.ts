@@ -5,7 +5,7 @@
  */
 
 export declare interface TranslationConfiguration {
-  // # [TO_DO]: Implement these options for better coverage
-  namespace?: string | boolean;
+  namespace?: string | false;
+  // # [TO_DO]: Implement JSON files
   includeJson?: boolean;
 }
