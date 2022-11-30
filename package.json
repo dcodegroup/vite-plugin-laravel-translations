@@ -1,0 +1,60 @@
+{
+  "name": "vite-laravel-translations",
+  "version": "0.0.1-rc.1",
+  "private": false,
+  "description": "Vite Plugin to make Laravel Translations globally available as JSON field.",
+  "author": "Dcode Group",
+  "main": "dist/vite.js",
+  "scripts": {
+    "clear": "rimraf dist && mkdirp dist",
+    "build": "pnpm run clear && tsc",
+    "build:dev": "pnpm run clear && vite",
+    "build:prod": "pnpm run clear && vite build",
+    "lint": "eslint . --ext js,jsx,vue,ts,tsx",
+    "lint:fix": "eslint . --ext js,jsx,vue,ts,tsx --fix"
+  },
+  "keywords": [
+    "vite",
+    "plugin",
+    "laravel",
+    "translations",
+    "vue",
+    "react",
+    "json",
+    "php"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@types/eslint": "^8.4.10",
+    "@types/glob": "^8.0.0",
+    "@types/node": "^18.11.9",
+    "@typescript-eslint/eslint-plugin": "^5.45.0",
+    "@typescript-eslint/parser": "^5.45.0",
+    "eslint": "^8.28.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "glob": "^8.0.3",
+    "mkdirp": "^1.0.4",
+    "path": "^0.12.7",
+    "php-array-reader": "^1.3.4",
+    "php-parser": "^3.1.2",
+    "prettier": "^2.8.0",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.9.3",
+    "vite": "^3.2.4"
+  },
+  "peerDependencies": {
+    "vite": "^3.0.0"
+  },
+  "bugs": {
+    "url": "https://github.com/dcodegroup/vite-plugin-laravel-translations/issues"
+  },
+  "engines": {
+    "node": ">= 12.0.0",
+    "pnpm": ">= 7.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dcodegroup/vite-plugin-laravel-translations.git"
+  }
+}
