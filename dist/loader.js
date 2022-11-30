@@ -63,6 +63,11 @@ const buildTranslations = (absLangPath, pluginConfiguration) => {
         const currentXlation = fileExt == '.php' ? php_array_reader_1.default.fromFile(file) : (_a = file, Promise.resolve().then(() => __importStar(require(_a))));
         // # Pre-Define: Initial Value for reducer
         const all = currentXlation;
+        // # Configure: Namespaces
+        if (typeof pluginConfiguration.namespace == 'string' && pluginConfiguration.namespace.length > 0) {
+            // # Append configured namespace
+            pathSplit.splice(1, 0, pluginConfiguration.namespace);
+        }
         // # Generate: Nested Object from array
         const currentTranslationStructure = fileExt == '.php' ? pathSplit.reverse().reduce((all, item) => ({ [item]: all }), all) : currentXlation;
         // # Merge-Deep: Existing translations with current translations
