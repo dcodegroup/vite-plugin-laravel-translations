@@ -50,7 +50,7 @@ For more information on usage with <b>vue-i18n</b> refer to <a href="https://vue
 const i18n = VueI18n.createI18n({
   locale: 'ja', // set locale
   fallbackLocale: 'en', // set fallback locale
-  LARAVEL_TRANSLATIONS, // set locale messages
+  messages: LARAVEL_TRANSLATIONS, // set locale messages
   // If you need to specify other options, you can set other options
   // ...
 })
@@ -83,7 +83,7 @@ Vue.config.productionTip = false;
 var i18n = new VueI18n({
   locale: 'en',
   fallbackLocale: 'en-gb',
-  LARAVEL_TRANSLATIONS
+  messages: LARAVEL_TRANSLATIONS
 });
 
 ...
