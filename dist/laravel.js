@@ -29,7 +29,7 @@ const determineLaravelVersion = () => {
             // # Extract: Laravel Version
             const composer = JSON.parse(fileData);
             const laravelVersionRaw = composer.require['laravel/framework'];
-            const laravelVersion = laravelVersionRaw.split('.')[0].replace(/\D/g, '');
+            const laravelVersion = parseInt(laravelVersionRaw.split('.')[0].replace(/\D/g, ''));
             // # Resolve: Laravel Version
             resolveVersion(laravelVersion);
         });
@@ -41,7 +41,7 @@ exports.determineLaravelVersion = determineLaravelVersion;
  * 	Description: Based on version, return the correct lang/
  *		folder path in absolute form.
  *
- * 	@param laravelVersion Number
+ * 	@param laravelVersion number
  * 	@returns string
  */
 const getLangDir = (laravelVersion = 9) => {
