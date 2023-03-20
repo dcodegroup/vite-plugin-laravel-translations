@@ -43,5 +43,5 @@ export const determineLaravelVersion = () => {
  */
 export const getLangDir = (laravelVersion = 9) => {
   // # Return: Absolute path to Laravel lang/ folder
-  return [9, 10].includes(laravelVersion) ? path.resolve('lang/') : path.resolve('resources/lang');
+  return laravelVersion >= 9 ? path.resolve('lang/') : path.resolve('resources/lang');
 };
