@@ -46,7 +46,7 @@ exports.determineLaravelVersion = determineLaravelVersion;
  */
 const getLangDir = (laravelVersion = 9) => {
     // # Return: Absolute path to Laravel lang/ folder
-    return laravelVersion == 9 ? path_1.default.resolve('lang/') : path_1.default.resolve('resources/lang');
+    return [9, 10].includes(laravelVersion) ? path_1.default.resolve('lang/') : path_1.default.resolve('resources/lang');
 };
 exports.getLangDir = getLangDir;
 //# sourceMappingURL=laravel.js.map
