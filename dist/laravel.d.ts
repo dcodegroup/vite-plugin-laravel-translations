@@ -11,7 +11,7 @@ export declare const determineLaravelVersion: () => Promise<number>;
  * 	Description: Based on version, return the correct lang/
  *		folder path in absolute form.
  *
- * 	@param laravelVersion Number
+ * 	@param laravelVersion number
  * 	@returns string
  */
 export declare const getLangDir: (laravelVersion?: number) => string;
