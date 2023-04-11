@@ -13,7 +13,7 @@
 
 ## Installation
 
-With [pnpm](https://www.npmjs.com):
+With [pnpm](https://pnpm.io):
 ```sh
 pnpm i vite-plugin-laravel-translations
 ```
