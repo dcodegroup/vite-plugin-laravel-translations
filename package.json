@@ -14,6 +14,7 @@
   "keywords": [
     "vite",
     "plugin",
+    "vite-plugin",
     "laravel",
     "translations",
     "vue",
