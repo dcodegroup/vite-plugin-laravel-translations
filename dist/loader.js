@@ -32,7 +32,7 @@ exports.buildTranslations = void 0;
  * #			     IMPORTS	 			#
  * ##########################################
  */
-const glob_1 = __importDefault(require("glob"));
+const glob_1 = require("glob");
 const path_1 = __importDefault(require("path"));
 // @ts-ignore - No types from JS package
 const php_array_reader_1 = __importDefault(require("php-array-reader"));
@@ -52,7 +52,7 @@ const buildTranslations = (absLangPath, pluginConfiguration) => {
     // # Define: Glob Regex
     const globRegex = pluginConfiguration.includeJson ? '**/*.{json,php}' : '**/*.php';
     // # Recursively: Fetch filenames as an array
-    const files = glob_1.default.sync(absLangPath + path_1.default.sep + globRegex);
+    const files = (0, glob_1.globSync)(path_1.default.join(absLangPath, globRegex), { windowsPathsNoEscape: true });
     // # Loop: Through each of the files and create object
     for (const file of files) {
         // # Define: File information
