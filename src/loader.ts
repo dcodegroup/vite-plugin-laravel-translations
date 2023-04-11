@@ -3,7 +3,7 @@
  * #			     IMPORTS	 			#
  * ##########################################
  */
-import glob from 'glob';
+import { globSync } from 'glob';
 import path from 'path';
 // @ts-ignore - No types from JS package
 import phpArrayReader from 'php-array-reader';
@@ -26,7 +26,7 @@ export const buildTranslations = (absLangPath: string, pluginConfiguration: Tran
   const globRegex = pluginConfiguration.includeJson ? '**/*.{json,php}' : '**/*.php';
 
   // # Recursively: Fetch filenames as an array
-  const files = glob.sync(absLangPath + path.sep + globRegex);
+  const files = globSync(path.join(absLangPath, globRegex), { windowsPathsNoEscape: true });
 
   // # Loop: Through each of the files and create object
   for (const file of files) {

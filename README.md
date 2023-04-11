@@ -2,14 +2,29 @@
     Vite Plugin - Laravel Translations
 </h1>
 
+<br/>
+
+<a href="https://www.npmjs.com/package/vite-plugin-laravel-translations">![npm](https://img.shields.io/npm/v/vite-plugin-laravel-translations)</a>
+![Last Commit](https://img.shields.io/github/last-commit/dcodegroup/vite-plugin-laravel-translations)
+![npm Total Downloads](https://img.shields.io/npm/dt/vite-plugin-laravel-translations)
+<a href="https://snyk.io/advisor/npm-package/vite-plugin-laravel-translations">![Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/github/dcodegroup/vite-plugin-laravel-translations)</a>
+<a href="https://github.com/dcodegroup/vite-plugin-laravel-translations/issues">![Issues](https://img.shields.io/github/issues/dcodegroup/vite-plugin-laravel-translations)</a>
+![npm peer dependency version](https://img.shields.io/npm/dependency-version/vite-plugin-laravel-translations/peer/vite)
+
+<br/>
+
 <p align="center">
     <b>vite-plugin-laravel-translations</b> is a <b>Vite</b> plugin that retrieves <b>Laravel</b> Framework translation
     files and makes them available as a global variable for use with any other <b>i18n</b> framework plugin such as <a href="https://www.npmjs.com/package/vue-i18n">vue-i18n</a> for <b>Vue</b> or <a href="https://www.npmjs.com/package/react-i18next">react-i18next</a> for <b>React</b>.
 </p>
 
+<p align="center">
+    <b>NOTE:</b> This plugin uses Vite specific hooks (<a href="https://vitejs.dev/guide/api-plugin.html#config">config</a> & <a href="https://vitejs.dev/guide/api-plugin.html#handlehotupdate">handleHotUpdate</a>) to make the translations globally available and cannot be used as a rollup plugin.
+</p>
+
 ## Installation
 
-With [pnpm](https://www.npmjs.com):
+With [pnpm](https://pnpm.io):
 ```sh
 pnpm i vite-plugin-laravel-translations
 ```
@@ -169,3 +184,8 @@ console.log(translations);
 
 When running `vite` with dev server running, any changes on any detected `lang/` folder for `.{php,json}` files will restart `vite` dev server so that the language configurations can be updated.
 
+
+## Known Issues/Caveats
+
+As the `LARAVEL_TRANSLATIONS` variable is globally available and read by Vite, if it's wrapped into a string it will cause issues on build. <b><i>DON'T DO:</i></b> `"LARAVEL_TRANSLATIONS"` or `'LARAVEL_TRANSLATIONS'`
+<br/><br/>E.g. `console.log("LARAVEL_TRANSLATIONS")`
