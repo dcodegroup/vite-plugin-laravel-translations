@@ -2,6 +2,18 @@
     Vite Plugin - Laravel Translations
 </h1>
 
+<br/>
+
+<a href="https://www.npmjs.com/package/vite-plugin-laravel-translations">![npm](https://img.shields.io/static/v1?label=npm&message=Download&color=red)</a>
+![npm](https://img.shields.io/npm/v/vite-plugin-laravel-translations)
+![Last Commit](https://img.shields.io/github/last-commit/dcodegroup/vite-plugin-laravel-translations)
+![npm Total Downloads](https://img.shields.io/npm/dt/vite-plugin-laravel-translations)
+![Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/github/dcodegroup/vite-plugin-laravel-translations)
+![Issues](https://img.shields.io/github/issues/dcodegroup/vite-plugin-laravel-translations)
+![npm peer dependency version](https://img.shields.io/npm/dependency-version/vite-plugin-laravel-translations/peer/vite)
+
+<br/>
+
 <p align="center">
     <b>vite-plugin-laravel-translations</b> is a <b>Vite</b> plugin that retrieves <b>Laravel</b> Framework translation
     files and makes them available as a global variable for use with any other <b>i18n</b> framework plugin such as <a href="https://www.npmjs.com/package/vue-i18n">vue-i18n</a> for <b>Vue</b> or <a href="https://www.npmjs.com/package/react-i18next">react-i18next</a> for <b>React</b>.
@@ -173,3 +185,8 @@ console.log(translations);
 
 When running `vite` with dev server running, any changes on any detected `lang/` folder for `.{php,json}` files will restart `vite` dev server so that the language configurations can be updated.
 
+
+## Known Issues/Caveats
+
+As the `LARAVEL_TRANSLATIONS` variable is globally available and read by Vite, if it's wrapped into a string it will cause issues on build. <b><i>DON'T DO:</i></b> `"LARAVEL_TRANSLATIONS"` or `'LARAVEL_TRANSLATIONS'`
+<br/><br/>E.g. `console.log("LARAVEL_TRANSLATIONS")`
