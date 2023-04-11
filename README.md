@@ -4,12 +4,11 @@
 
 <br/>
 
-<a href="https://www.npmjs.com/package/vite-plugin-laravel-translations">![npm](https://img.shields.io/static/v1?label=npm&message=Download&color=red)</a>
-![npm](https://img.shields.io/npm/v/vite-plugin-laravel-translations)
+<a href="https://www.npmjs.com/package/vite-plugin-laravel-translations">![npm](https://img.shields.io/npm/v/vite-plugin-laravel-translations)</a>
 ![Last Commit](https://img.shields.io/github/last-commit/dcodegroup/vite-plugin-laravel-translations)
 ![npm Total Downloads](https://img.shields.io/npm/dt/vite-plugin-laravel-translations)
-![Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/github/dcodegroup/vite-plugin-laravel-translations)
-![Issues](https://img.shields.io/github/issues/dcodegroup/vite-plugin-laravel-translations)
+<a href="https://snyk.io/advisor/npm-package/vite-plugin-laravel-translations">![Vulnerabilities](https://img.shields.io/snyk/vulnerabilities/github/dcodegroup/vite-plugin-laravel-translations)</a>
+<a href="https://github.com/dcodegroup/vite-plugin-laravel-translations/issues">![Issues](https://img.shields.io/github/issues/dcodegroup/vite-plugin-laravel-translations)</a>
 ![npm peer dependency version](https://img.shields.io/npm/dependency-version/vite-plugin-laravel-translations/peer/vite)
 
 <br/>
