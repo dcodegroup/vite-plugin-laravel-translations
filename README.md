@@ -7,6 +7,10 @@
     files and makes them available as a global variable for use with any other <b>i18n</b> framework plugin such as <a href="https://www.npmjs.com/package/vue-i18n">vue-i18n</a> for <b>Vue</b> or <a href="https://www.npmjs.com/package/react-i18next">react-i18next</a> for <b>React</b>.
 </p>
 
+<p align="center">
+    <b>NOTE:</b> This plugin uses Vite specific hooks (<a href="https://vitejs.dev/guide/api-plugin.html#config">config</a> & <a href="https://vitejs.dev/guide/api-plugin.html#handlehotupdate">handleHotUpdate</a>) to make the translations globally available and cannot be used as a rollup plugin.
+</p>
+
 ## Installation
 
 With [pnpm](https://www.npmjs.com):
