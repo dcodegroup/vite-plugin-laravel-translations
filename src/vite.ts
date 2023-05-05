@@ -47,7 +47,7 @@ export default async function laravelTranslations(pluginConfiguration: Translati
     },
     handleHotUpdate(context: HmrContext) {
       // # Determine: Regex to match based on configurations
-      const fileMatchRegex = pluginConfiguration.includeJson ? /lang\/.*\.php$/ : /lang\/.*\.php$/;
+      const fileMatchRegex = pluginConfiguration.includeJson ? /lang\/.*\.(?:php|json)$/ : /lang\/.*\.php$/;
 
       // # Check: Match Regex
       if (fileMatchRegex.test(context.file)) {
