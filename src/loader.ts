@@ -48,8 +48,7 @@ export const buildTranslations = (absLangPath: string, pluginConfiguration: Tran
     }
 
     // # Generate: Nested Object from array
-    const currentTranslationStructure =
-      fileExt == '.php' ? pathSplit.reverse().reduce((all, item) => ({ [item]: all }), all) : currentXlation;
+    const currentTranslationStructure = pathSplit.reverse().reduce((all, item) => ({[item]: all}), all);
 
     // # Merge-Deep: Existing translations with current translations
     translations = mergeDeep(translations, currentTranslationStructure);
