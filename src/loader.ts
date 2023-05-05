@@ -18,7 +18,7 @@ import { TranslationConfiguration } from '../types/index';
  * 	@param pluginConfiguration - Plugin configurations
  * 	@returns translations - Object/JSON version of Laravel Translations
  */
-export const buildTranslations = (absLangPath: string, pluginConfiguration: TranslationConfiguration) => {
+export const buildTranslations = async (absLangPath: string, pluginConfiguration: TranslationConfiguration) => {
   // # Define: Translation Object
   let translations = {};
 
@@ -36,10 +36,8 @@ export const buildTranslations = (absLangPath: string, pluginConfiguration: Tran
     const pathSplit = fileRaw.replace(fileExt, '').split(path.sep);
 
     // # Import/Parse: The .PHP/.JSON language file.
-    const currentXlation = fileExt == '.php' ? phpArrayReader.fromFile(file) : import(file);
-
     // # Pre-Define: Initial Value for reducer
-    const all = currentXlation;
+    const all = fileExt == '.php' ? phpArrayReader.fromFile(file) : await import(file);
 
     // # Configure: Namespaces
     if (typeof pluginConfiguration.namespace == 'string' && pluginConfiguration.namespace.length > 0) {

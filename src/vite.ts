@@ -31,12 +31,12 @@ export default async function laravelTranslations(pluginConfiguration: Translati
     name: 'laravelTranslations',
 
     // # Plugin: Configuration Hook (like construct)
-    config() {
+    async config() {
       // # Merge: Configrations
       pluginConfiguration = Object.assign({}, defaultConfigurations, pluginConfiguration);
 
       // # Build: Translations
-      const translations = buildTranslations(absPathForLangDir, pluginConfiguration);
+      const translations = await buildTranslations(absPathForLangDir, pluginConfiguration);
 
       // # Define: Make available as global variable
       return {
