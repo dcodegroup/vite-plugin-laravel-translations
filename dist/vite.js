@@ -26,11 +26,11 @@ async function laravelTranslations(pluginConfiguration = {}) {
         // # Define: Plugin Name for Vite
         name: 'laravelTranslations',
         // # Plugin: Configuration Hook (like construct)
-        config() {
+        async config() {
             // # Merge: Configrations
             pluginConfiguration = Object.assign({}, defaultConfigurations, pluginConfiguration);
             // # Build: Translations
-            const translations = (0, loader_1.buildTranslations)(absPathForLangDir, pluginConfiguration);
+            const translations = await (0, loader_1.buildTranslations)(absPathForLangDir, pluginConfiguration);
             // # Define: Make available as global variable
             return {
                 define: {
@@ -40,7 +40,7 @@ async function laravelTranslations(pluginConfiguration = {}) {
         },
         handleHotUpdate(context) {
             // # Determine: Regex to match based on configurations
-            const fileMatchRegex = pluginConfiguration.includeJson ? /lang\/.*\.php$/ : /lang\/.*\.php$/;
+            const fileMatchRegex = pluginConfiguration.includeJson ? /lang\/.*\.(?:php|json)$/ : /lang\/.*\.php$/;
             // # Check: Match Regex
             if (fileMatchRegex.test(context.file)) {
                 // # Trigger: Server Restart to pick up changes
