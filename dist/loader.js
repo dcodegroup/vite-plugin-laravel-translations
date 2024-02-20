@@ -29,7 +29,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.buildTranslations = void 0;
 /**
  * ##########################################
- * #			     IMPORTS	 			#
+ * #                 IMPORTS                #
  * ##########################################
  */
 const glob_1 = require("glob");
@@ -37,15 +37,15 @@ const path_1 = __importDefault(require("path"));
 // @ts-ignore - No types from JS package
 const php_array_reader_1 = __importDefault(require("php-array-reader"));
 /**
- * 	Function: buildTranslations()
- * 	Description: Main function that fetches all of the Laravel translations
- * 		and creates appropiate nested objects for.
+ *    Function: buildTranslations()
+ *    Description: Main function that fetches all of the Laravel translations
+ *        and creates appropiate nested objects for.
  *
- * 	@param absLangPath - The absolute path to Laravel lang/ directory
- * 	@param pluginConfiguration - Plugin configurations
- * 	@returns translations - Object/JSON version of Laravel Translations
+ *    @param absLangPath - The absolute path to Laravel lang/ directory
+ *    @param pluginConfiguration - Plugin configurations
+ *    @returns translations - Object/JSON version of Laravel Translations
  */
-const buildTranslations = (absLangPath, pluginConfiguration) => {
+const buildTranslations = async (absLangPath, pluginConfiguration) => {
     var _a;
     // # Define: Translation Object
     let translations = {};
@@ -60,16 +60,15 @@ const buildTranslations = (absLangPath, pluginConfiguration) => {
         const fileExt = path_1.default.extname(fileRaw);
         const pathSplit = fileRaw.replace(fileExt, '').split(path_1.default.sep);
         // # Import/Parse: The .PHP/.JSON language file.
-        const currentXlation = fileExt == '.php' ? php_array_reader_1.default.fromFile(file) : (_a = file, Promise.resolve().then(() => __importStar(require(_a))));
         // # Pre-Define: Initial Value for reducer
-        const all = currentXlation;
+        const all = fileExt == '.php' ? php_array_reader_1.default.fromFile(file) : await (_a = file, Promise.resolve().then(() => __importStar(require(_a))));
         // # Configure: Namespaces
         if (typeof pluginConfiguration.namespace == 'string' && pluginConfiguration.namespace.length > 0) {
             // # Append configured namespace
             pathSplit.splice(1, 0, pluginConfiguration.namespace);
         }
         // # Generate: Nested Object from array
-        const currentTranslationStructure = fileExt == '.php' ? pathSplit.reverse().reduce((all, item) => ({ [item]: all }), all) : currentXlation;
+        const currentTranslationStructure = pathSplit.reverse().reduce((all, item) => ({ [item]: all }), all);
         // # Merge-Deep: Existing translations with current translations
         translations = mergeDeep(translations, currentTranslationStructure);
     }
@@ -78,12 +77,12 @@ const buildTranslations = (absLangPath, pluginConfiguration) => {
 };
 exports.buildTranslations = buildTranslations;
 /**
- * 	Function: mergeDeep()
- * 	Description: Method used to deeply merge objects that are nested.
+ *    Function: mergeDeep()
+ *    Description: Method used to deeply merge objects that are nested.
  *
- * 	@param target - Main Object to merge into
- * 	@param source - Object 2 containing data to merge into main object
- * 	@returns target
+ *    @param target - Main Object to merge into
+ *    @param source - Object 2 containing data to merge into main object
+ *    @returns target
  */
 // @ts-ignore - Unknown object definitions
 const mergeDeep = (target, source) => {

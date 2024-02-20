@@ -1,4 +1,4 @@
-import { TranslationConfiguration } from '../types/index';
+import { TranslationConfiguration } from '../types';
 import type { HmrContext } from 'vite';
 /**
  * ##########################################
@@ -7,10 +7,10 @@ import type { HmrContext } from 'vite';
  */
 export default function laravelTranslations(pluginConfiguration?: TranslationConfiguration): Promise<{
     name: string;
-    config(): {
+    config(): Promise<{
         define: {
             LARAVEL_TRANSLATIONS: {};
         };
-    };
+    }>;
     handleHotUpdate(context: HmrContext): void;
 }>;

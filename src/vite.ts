@@ -5,7 +5,7 @@
  */
 import { determineLaravelVersion, getLangDir } from './laravel';
 import { buildTranslations } from './loader';
-import { TranslationConfiguration } from '../types/index';
+import { TranslationConfiguration } from '../types';
 import type { HmrContext } from 'vite';
 
 /**
@@ -31,12 +31,12 @@ export default async function laravelTranslations(pluginConfiguration: Translati
     name: 'laravelTranslations',
 
     // # Plugin: Configuration Hook (like construct)
-    config() {
+    async config() {
       // # Merge: Configrations
       pluginConfiguration = Object.assign({}, defaultConfigurations, pluginConfiguration);
 
       // # Build: Translations
-      const translations = buildTranslations(absPathForLangDir, pluginConfiguration);
+      const translations = await buildTranslations(absPathForLangDir, pluginConfiguration);
 
       // # Define: Make available as global variable
       return {
@@ -47,7 +47,7 @@ export default async function laravelTranslations(pluginConfiguration: Translati
     },
     handleHotUpdate(context: HmrContext) {
       // # Determine: Regex to match based on configurations
-      const fileMatchRegex = pluginConfiguration.includeJson ? /lang\/.*\.php$/ : /lang\/.*\.php$/;
+      const fileMatchRegex = pluginConfiguration.includeJson ? /lang\/.*\.(?:php|json)$/ : /lang\/.*\.php$/;
 
       // # Check: Match Regex
       if (fileMatchRegex.test(context.file)) {
