@@ -53,6 +53,7 @@ const buildTranslations = async (absLangPath, pluginConfiguration) => {
     const globRegex = pluginConfiguration.includeJson ? '**/*.{json,php}' : '**/*.php';
     // # Recursively: Fetch filenames as an array
     const files = (0, glob_1.globSync)(path_1.default.join(absLangPath, globRegex), { windowsPathsNoEscape: true });
+    console.log(files);
     // # Loop: Through each of the files and create object
     for (const file of files) {
         // # Define: File information
