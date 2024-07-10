@@ -1,13 +1,58 @@
-/**
- * ##########################################
- * #                 IMPORTS                #
- * ##########################################
- */
-import { globSync } from 'glob';
-import path from 'path';
 // @ts-ignore - No types from JS package
 import phpArrayReader from 'php-array-reader';
+import { globSync } from 'glob';
+import path from 'path';
 import { TranslationConfiguration } from '../types';
+import { mergeDeep } from './utils/mergeDeep';
+
+/**
+ * Get the glob pattern based on the configuration
+ *
+ * @param shouldIncludeJson - Should include JSON files
+ * @returns string - The glob pattern
+ */
+const globPattern = (shouldIncludeJson: boolean): string => (shouldIncludeJson ? '**/*.{json,php}' : '**/*.php');
+
+/**
+ * Configure the namespace for the path split
+ *
+ * @param pathSplit - The path split
+ * @param namespace - The namespace
+ * @returns string[] - The path split with the namespace
+ */
+const configureNamespaceIfNeeded = (pathSplit: string[], namespace: string): string[] => {
+  if (namespace && namespace.length > 0) {
+    // Append configured namespace
+    pathSplit.splice(1, 0, namespace);
+  }
+  return pathSplit;
+};
+
+/**
+ * Get the translation content by file extension
+ *
+ * @param fileExtension - The file extension
+ * @param file - The file path
+ * @returns Promise<any> - The translation content
+ */
+const translationContentByFileExtension = async (fileExtension: string, file: string): Promise<string> => {
+  if (fileExtension === '.php') {
+    return phpArrayReader.fromFile(file);
+  }
+
+  const fullPath = `${process.cwd()}/${file}`;
+  return await import(fullPath);
+};
+
+/**
+ * Generate the nested object structure
+ *
+ * @param pathSplit - The path split
+ * @param all - The all object
+ * @returns - The nested object structure
+ */
+const generateNestedObjectStructure = (pathSplit: string[], all: any): object =>
+  pathSplit.reverse().reduce((all, item) => ({ [item]: all }), all);
 
 /**
  *    Function: buildTranslations()
@@ -18,73 +63,44 @@ import { TranslationConfiguration } from '../types';
  *    @param pluginConfiguration - Plugin configurations
  *    @returns translations - Object/JSON version of Laravel Translations
  */
-export const buildTranslations = async (absLangPath: string, pluginConfiguration: TranslationConfiguration) => {
-  // # Define: Translation Object
-  let translations = {};
+export const buildTranslations = async (
+  absLangPath: string,
+  pluginConfiguration: TranslationConfiguration
+): Promise<object> => {
+  // Define the language directory
+  const langDir = pluginConfiguration.absoluteLanguageDirectory || absLangPath;
 
-  // # Define: Glob Regex
-  const globRegex = pluginConfiguration.includeJson ? '**/*.{json,php}' : '**/*.php';
+  // Define the glob pattern
+  const globRegex = globPattern(pluginConfiguration.includeJson || false);
 
-  // # Recursively: Fetch filenames as an array
-  const files = globSync(path.join(absLangPath, globRegex), { windowsPathsNoEscape: true });
+  // Fetch filenames as an array
+  const files = globSync(path.join(langDir, globRegex), { windowsPathsNoEscape: true });
 
-  // # Loop: Through each of the files and create object
-  for (const file of files) {
-    // # Define: File information
-    const fileRaw = file.replace(absLangPath + path.sep, '');
-    const fileExt = path.extname(fileRaw);
-    const pathSplit = fileRaw.replace(fileExt, '').split(path.sep);
+  // Define initial translations
+  const initialTranslations = Promise.resolve({});
 
-    // # Import/Parse: The .PHP/.JSON language file.
-    // # Pre-Define: Initial Value for reducer
-    const all = fileExt == '.php' ? phpArrayReader.fromFile(file) : await import(file);
+  // Create translations object
+  const translations = await files.reduce(async (accumulator, file) => {
+    const { sep: pathSeparator } = path;
 
-    // # Configure: Namespaces
-    if (typeof pluginConfiguration.namespace == 'string' && pluginConfiguration.namespace.length > 0) {
-      // # Append configured namespace
-      pathSplit.splice(1, 0, pluginConfiguration.namespace);
-    }
+    // Wait for the accumulator to resolve
+    const translations = await accumulator;
 
-    // # Generate: Nested Object from array
-    const currentTranslationStructure = pathSplit.reverse().reduce((all, item) => ({ [item]: all }), all);
+    // Extract the file path
+    const fileRaw = file.replace(langDir + pathSeparator, '');
 
-    // # Merge-Deep: Existing translations with current translations
-    translations = mergeDeep(translations, currentTranslationStructure);
-  }
+    // Extract the file extension
+    const fileExtension = path.extname(fileRaw);
 
-  // # Return: Imported Laravel translations as JSON
+    // Extract the path split
+    const pathSplit = fileRaw.replace(fileExtension, '').split(pathSeparator);
+
+    const translationContent = await translationContentByFileExtension(fileExtension, file);
+    const namespacePath = configureNamespaceIfNeeded(pathSplit, pluginConfiguration.namespace || '');
+    const currentTranslationStructure = generateNestedObjectStructure(namespacePath, translationContent);
+
+    return mergeDeep(translations, currentTranslationStructure);
+  }, initialTranslations);
+
   return translations;
-};
-
-/**
- *    Function: mergeDeep()
- *    Description: Method used to deeply merge objects that are nested.
- *
- *    @param target - Main Object to merge into
- *    @param source - Object 2 containing data to merge into main object
- *    @returns target
- */
-// @ts-ignore - Unknown object definitions
-const mergeDeep = (target, source) => {
-  // @ts-ignore - Unknown object definitions
-  const isObject = (obj) => obj && typeof obj === 'object';
-
-  if (!isObject(target) || !isObject(source)) {
-    return source;
-  }
-
-  Object.keys(source).forEach((key) => {
-    const targetValue = target[key];
-    const sourceValue = source[key];
-
-    if (Array.isArray(targetValue) && Array.isArray(sourceValue)) {
-      target[key] = targetValue.concat(sourceValue);
-    } else if (isObject(targetValue) && isObject(sourceValue)) {
-      target[key] = mergeDeep(Object.assign({}, targetValue), sourceValue);
-    } else {
-      target[key] = sourceValue;
-    }
-  });
-
-  return target;
 };

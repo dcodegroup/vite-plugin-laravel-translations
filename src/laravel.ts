@@ -1,36 +1,36 @@
-/**
- * ##########################################
- * #			     IMPORTS	 			#
- * ##########################################
- */
 import path from 'path';
-import fs from 'fs';
+import { promises as fs } from 'fs';
 
 /**
  * 	Function: determineLaravelVersion()
  *	Description: Used to determine laravel version to determine
  * 		the default path for language folder.
  *
- * 	@return Promise<Error|Number>
+ * 	@param composerPath string (default: 'composer.json') The path to composer.json file, in case it's not in root.
+ *
+ * 	@return Promise<Error|Number> The current Laravel version
  */
-export const determineLaravelVersion = () => {
-  // # Read: Composer.json to determine file
-  return new Promise<number>(function (resolveVersion, rejectVersion) {
-    fs.readFile('composer.json', 'utf8', function (fileError: NodeJS.ErrnoException | null, fileData: string) {
-      // # Reject: Read File Error
-      if (fileError) {
-        rejectVersion(fileError);
-      }
+export const determineLaravelVersion = async (composerPath: string = 'composer.json'): Promise<number> => {
+  try {
+    // Read Composer.json to determine the file
+    const fileData = await fs.readFile(composerPath, 'utf8');
 
-      // # Extract: Laravel Version
-      const composer = JSON.parse(fileData);
-      const laravelVersionRaw = composer.require['laravel/framework'];
-      const laravelVersion = parseInt(laravelVersionRaw.split('.')[0].replace(/\D/g, ''));
+    // Extract Laravel Version
+    const composer = JSON.parse(fileData);
+    const laravelVersionRaw = composer.require['laravel/framework'];
 
-      // # Resolve: Laravel Version
-      resolveVersion(laravelVersion);
-    });
-  });
+    // Extract Laravel Version using the first (0) index
+    const [laravelVersionString] = laravelVersionRaw.split('.');
+
+    // Parse Laravel Version to Integer
+    const laravelVersion = parseInt(laravelVersionString.replace(/\D/g, ''));
+
+    // Return Laravel Version (e.g. 11)
+    return laravelVersion;
+  } catch (exception) {
+    // Throw exception if composer.json file is not found
+    throw exception;
+  }
 };
 
 /**
