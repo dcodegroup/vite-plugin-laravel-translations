@@ -7,7 +7,7 @@ import { globSync } from 'glob';
 import path from 'path';
 // @ts-ignore - No types from JS package
 import phpArrayReader from 'php-array-reader';
-import { TranslationConfiguration } from '../types';
+import { TranslationConfiguration } from '../types/index.js';
 
 /**
  *    Function: buildTranslations()
