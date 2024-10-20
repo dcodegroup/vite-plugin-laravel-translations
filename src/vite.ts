@@ -17,14 +17,15 @@ export default async function laravelTranslations(pluginConfiguration: Translati
   // # Define: Default Configurations
   const defaultConfigurations: TranslationConfiguration = {
     namespace: false,
-    includeJson: false
+    includeJson: false,
+    absoluteLanguageDirectory: null
   };
 
   // # Retrieve: Laravel Version
   const laravelVersion = await determineLaravelVersion();
 
   // # Retrieve: Laravel Path (Absolute)
-  const absPathForLangDir = getLangDir(laravelVersion);
+  const absPathForLangDir = pluginConfiguration.absoluteLanguageDirectory || getLangDir(laravelVersion);
 
   return {
     // # Define: Plugin Name for Vite

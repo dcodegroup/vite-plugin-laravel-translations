@@ -179,6 +179,19 @@ console.log(translations);
 ...
 ```
 
+## Custom language directory
+
+By default, the plugin will look for language files in the `resources/lang` directory if the laravel version is minor than v9, otherwise it will look for language files in the `lang` directory. You can specify a custom directory by passing the `absoluteLanguageDirectory` option to the plugin.
+
+```js
+...
+plugins: [
+    laravelTranslations({
+        absoluteLanguageDirectory: 'custom/path/to/lang',
+    }),
+],
+```
+
 
 ## Hot-Module Replacement (HMR)
 
