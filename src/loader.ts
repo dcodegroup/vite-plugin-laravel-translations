@@ -1,10 +1,10 @@
 // @ts-ignore - No types from JS package
-import phpArrayReader from 'php-array-reader';
+import { fromString } from 'php-array-reader';
 import { globSync } from 'glob';
 import path from 'path';
-import { TranslationConfiguration } from '../types';
-import { mergeDeep } from './utils/mergeDeep';
+import { mergeDeep } from './utils/mergeDeep.js';
 import { TranslationConfiguration } from '../types/index.js';
+import { readFileSync } from 'node:fs';
 
 /**
  * Get the glob pattern based on the configuration
@@ -38,7 +38,7 @@ const configureNamespaceIfNeeded = (pathSplit: string[], namespace: string): str
  */
 const translationContentByFileExtension = async (fileExtension: string, file: string): Promise<string> => {
   if (fileExtension === '.php') {
-    return phpArrayReader.fromFile(file);
+    return fromString(readFileSync(file, 'utf8'));
   }
 
   const fullPath = `${process.cwd()}/${file}`;
