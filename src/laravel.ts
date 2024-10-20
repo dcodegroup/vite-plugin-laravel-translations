@@ -11,6 +11,7 @@ import { promises as fs } from 'fs';
  * 	@return Promise<Error|Number> The current Laravel version
  */
 export const determineLaravelVersion = async (composerPath: string = 'composer.json'): Promise<number> => {
+  // eslint-disable-next-line no-useless-catch
   try {
     // Read Composer.json to determine the file
     const fileData = await fs.readFile(composerPath, 'utf8');

@@ -52,6 +52,7 @@ const translationContentByFileExtension = async (fileExtension: string, file: st
  * @param all - The all object
  * @returns - The nested object structure
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const generateNestedObjectStructure = (pathSplit: string[], all: any): object =>
   pathSplit.reverse().reduce((all, item) => ({ [item]: all }), all);
 

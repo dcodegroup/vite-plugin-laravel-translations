@@ -13,8 +13,8 @@
   "scripts": {
     "clear": "rimraf dist && mkdirp dist",
     "build": "pnpm run clear && tsc",
-    "lint": "eslint . --ext js,jsx,vue,ts,tsx",
-    "lint:fix": "eslint . --ext js,jsx,vue,ts,tsx --fix"
+    "lint": "eslint src/",
+    "lint:fix": "eslint src/ --fix"
   },
   "keywords": [
     "vite",
@@ -29,6 +29,8 @@
   ],
   "license": "MIT",
   "devDependencies": {
+    "@eslint/eslintrc": "^3.1.0",
+    "@eslint/js": "^9.13.0",
     "@types/eslint": "^9.6.1",
     "@types/node": "^22.7.7",
     "@typescript-eslint/eslint-plugin": "^8.10.0",
@@ -36,6 +38,7 @@
     "eslint": "^9.13.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
+    "globals": "^15.11.0",
     "mkdirp": "^3.0.1",
     "path": "^0.12.7",
     "php-parser": "^3.1.5",
