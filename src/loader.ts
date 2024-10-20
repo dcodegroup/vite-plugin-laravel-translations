@@ -4,6 +4,7 @@ import { globSync } from 'glob';
 import path from 'path';
 import { TranslationConfiguration } from '../types';
 import { mergeDeep } from './utils/mergeDeep';
+import { TranslationConfiguration } from '../types/index.js';
 
 /**
  * Get the glob pattern based on the configuration

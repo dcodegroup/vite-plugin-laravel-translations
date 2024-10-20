@@ -3,9 +3,9 @@
  * #			     IMPORTS	 			#
  * ##########################################
  */
-import { determineLaravelVersion, getLangDir } from './laravel';
-import { buildTranslations } from './loader';
-import { TranslationConfiguration } from '../types';
+import { determineLaravelVersion, getLangDir } from './laravel.js';
+import { buildTranslations } from './loader.js';
+import { TranslationConfiguration } from '../types/index.js';
 import type { HmrContext } from 'vite';
 
 /**
