@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-laravel-translations",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "private": false,
   "description": "Vite Plugin to make Laravel Translations globally available as JSON field.",
   "author": "Dcode Group",
