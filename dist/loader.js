@@ -46,7 +46,20 @@ const translationContentByFileExtension = async (fileExtension, file) => {
  * @param all - The all object
  * @returns - The nested object structure
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const generateNestedObjectStructure = (pathSplit, all) => pathSplit.reverse().reduce((all, item) => ({ [item]: all }), all);
+/**
+ * Replace the interpolation with provided prefix and suffix
+ *
+ * @param object - The object structure
+ * @param interpolation - An object with prefix and suffix to be used by interpolation
+ * @returns - The object structure with the new interpolation
+ */
+const replaceInterpolation = (object, interpolation) => {
+    let objectAsString = JSON.stringify(object);
+    objectAsString = objectAsString.replace(/\:(\w+)/g, `${interpolation.prefix}$1${interpolation.suffix}`);
+    return JSON.parse(objectAsString);
+};
 /**
  *    Function: buildTranslations()
  *    Description: Main function that fetches all of the Laravel translations
@@ -67,6 +80,7 @@ export const buildTranslations = async (absLangPath, pluginConfiguration) => {
     const initialTranslations = Promise.resolve({});
     // Create translations object
     const translations = await files.reduce(async (accumulator, file) => {
+        var _a, _b;
         const { sep: pathSeparator } = path;
         // Wait for the accumulator to resolve
         const translations = await accumulator;
@@ -76,7 +90,10 @@ export const buildTranslations = async (absLangPath, pluginConfiguration) => {
         const fileExtension = path.extname(fileRaw);
         // Extract the path split
         const pathSplit = fileRaw.replace(fileExtension, '').split(pathSeparator);
-        const translationContent = await translationContentByFileExtension(fileExtension, file);
+        let translationContent = await translationContentByFileExtension(fileExtension, file);
+        if (((_a = pluginConfiguration.interpolation) === null || _a === void 0 ? void 0 : _a.prefix) && ((_b = pluginConfiguration.interpolation) === null || _b === void 0 ? void 0 : _b.suffix)) {
+            translationContent = replaceInterpolation(translationContent, pluginConfiguration.interpolation);
+        }
         const namespacePath = configureNamespaceIfNeeded(pathSplit, pluginConfiguration.namespace || '');
         const currentTranslationStructure = generateNestedObjectStructure(namespacePath, translationContent);
         return mergeDeep(translations, currentTranslationStructure);

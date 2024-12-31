@@ -3,7 +3,7 @@ import { fromString } from 'php-array-reader';
 import { globSync } from 'glob';
 import path from 'path';
 import { mergeDeep } from './utils/mergeDeep.js';
-import { TranslationConfiguration } from '../types/index.js';
+import { TranslationConfiguration, InterpolationConfiguration } from '../types/index.js';
 import { readFileSync } from 'node:fs';
 
 /**
@@ -57,6 +57,19 @@ const generateNestedObjectStructure = (pathSplit: string[], all: any): object =>
   pathSplit.reverse().reduce((all, item) => ({ [item]: all }), all);
 
 /**
+ * Replace the interpolation with provided prefix and suffix
+ *
+ * @param object - The object structure
+ * @param interpolation - An object with prefix and suffix to be used by interpolation
+ * @returns - The object structure with the new interpolation
+ */
+const replaceInterpolation = (object: any, interpolation: InterpolationConfiguration): any => {
+  let objectAsString = JSON.stringify(object);
+  objectAsString = objectAsString.replace(/\:(\w+)/g, `${interpolation.prefix}$1${interpolation.suffix}`);
+  return JSON.parse(objectAsString);
+};
+
+/**
  *    Function: buildTranslations()
  *    Description: Main function that fetches all of the Laravel translations
  *        and creates appropiate nested objects for.
@@ -97,7 +110,10 @@ export const buildTranslations = async (
     // Extract the path split
     const pathSplit = fileRaw.replace(fileExtension, '').split(pathSeparator);
 
-    const translationContent = await translationContentByFileExtension(fileExtension, file);
+    let translationContent = await translationContentByFileExtension(fileExtension, file);
+    if (pluginConfiguration.interpolation?.prefix && pluginConfiguration.interpolation?.suffix) {
+      translationContent = replaceInterpolation(translationContent, pluginConfiguration.interpolation);
+    }
     const namespacePath = configureNamespaceIfNeeded(pathSplit, pluginConfiguration.namespace || '');
     const currentTranslationStructure = generateNestedObjectStructure(namespacePath, translationContent);
 
