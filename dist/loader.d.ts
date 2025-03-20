@@ -1,7 +1,7 @@
 import { TranslationConfiguration } from '../types/index.js';
 /**
- *    Function: buildTranslations()
- *    Description: Main function that fetches all of the Laravel translations
+ *    @function buildTranslations()
+ *    @description Main function that fetches all of the Laravel translations
  *        and creates appropiate nested objects for.
  *
  *    @param absLangPath - The absolute path to Laravel lang/ directory
