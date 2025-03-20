@@ -29,7 +29,6 @@ export default async function laravelTranslations(pluginConfiguration = {}) {
         async config() {
             // # Merge: Configrations
             pluginConfiguration = Object.assign({}, defaultConfigurations, pluginConfiguration);
-            console.log({ pluginConfiguration });
             // # Build: Translations
             const translations = await buildTranslations(absPathForLangDir, pluginConfiguration);
             // # Define: Make available as global variable
