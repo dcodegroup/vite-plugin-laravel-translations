@@ -2,15 +2,15 @@
 import { fromString } from 'php-array-reader';
 import { globSync } from 'glob';
 import path from 'path';
-import { mergeDeep } from './utils/mergeDeep.js';
 import { readFileSync } from 'node:fs';
+import { mergeDeep } from './utils/mergeDeep';
 /**
  * Get the glob pattern based on the configuration
  *
  * @param shouldIncludeJson - Should include JSON files
  * @returns string - The glob pattern
  */
-const globPattern = (shouldIncludeJson) => (shouldIncludeJson ? '**/*.{json,php}' : '**/*.php');
+export const globPattern = (shouldIncludeJson) => (shouldIncludeJson ? '**/*.{json,php}' : '**/*.php');
 /**
  * Configure the namespace for the path split
  *
@@ -18,7 +18,7 @@ const globPattern = (shouldIncludeJson) => (shouldIncludeJson ? '**/*.{json,php}
  * @param namespace - The namespace
  * @returns string[] - The path split with the namespace
  */
-const configureNamespaceIfNeeded = (pathSplit, namespace) => {
+export const configureNamespaceIfNeeded = (pathSplit, namespace) => {
     if (namespace && namespace.length > 0) {
         // Append configured namespace
         pathSplit.splice(1, 0, namespace);
@@ -32,7 +32,7 @@ const configureNamespaceIfNeeded = (pathSplit, namespace) => {
  * @param file - The file path
  * @returns Promise<any> - The translation content
  */
-const translationContentByFileExtension = async (fileExtension, file) => {
+export const translationContentByFileExtension = async (fileExtension, file) => {
     if (fileExtension === '.php') {
         return fromString(readFileSync(file, 'utf8'));
     }
@@ -47,7 +47,7 @@ const translationContentByFileExtension = async (fileExtension, file) => {
  * @returns - The nested object structure
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const generateNestedObjectStructure = (pathSplit, all) => pathSplit.reverse().reduce((all, item) => ({ [item]: all }), all);
+export const generateNestedObjectStructure = (pathSplit, all) => pathSplit.reverse().reduce((all, item) => ({ [item]: all }), all);
 /**
  * Replace the interpolation with provided prefix and suffix
  *
@@ -55,7 +55,7 @@ const generateNestedObjectStructure = (pathSplit, all) => pathSplit.reverse().re
  * @param interpolation - An object with prefix and suffix to be used by interpolation
  * @returns - The object structure with the new interpolation
  */
-const replaceInterpolation = (object, interpolation) => {
+export const replaceInterpolation = (object, interpolation) => {
     let objectAsString = JSON.stringify(object);
     objectAsString = objectAsString.replace(/\:(\w+)/g, `${interpolation.prefix}$1${interpolation.suffix}`);
     return JSON.parse(objectAsString);
@@ -80,7 +80,6 @@ export const buildTranslations = async (absLangPath, pluginConfiguration) => {
     const initialTranslations = Promise.resolve({});
     // Create translations object
     const translations = await files.reduce(async (accumulator, file) => {
-        var _a, _b;
         const { sep: pathSeparator } = path;
         // Wait for the accumulator to resolve
         const translations = await accumulator;
@@ -91,7 +90,7 @@ export const buildTranslations = async (absLangPath, pluginConfiguration) => {
         // Extract the path split
         const pathSplit = fileRaw.replace(fileExtension, '').split(pathSeparator);
         let translationContent = await translationContentByFileExtension(fileExtension, file);
-        if (((_a = pluginConfiguration.interpolation) === null || _a === void 0 ? void 0 : _a.prefix) && ((_b = pluginConfiguration.interpolation) === null || _b === void 0 ? void 0 : _b.suffix)) {
+        if (pluginConfiguration.interpolation?.prefix && pluginConfiguration.interpolation?.suffix) {
             translationContent = replaceInterpolation(translationContent, pluginConfiguration.interpolation);
         }
         const namespacePath = configureNamespaceIfNeeded(pathSplit, pluginConfiguration.namespace || '');
