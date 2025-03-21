@@ -5,7 +5,6 @@
   "description": "Vite Plugin to make Laravel Translations globally available as JSON field.",
   "author": "Dcode Group",
   "main": "dist/vite.js",
-  "type": "module",
   "files": [
     "./dist/",
     "./types/"
