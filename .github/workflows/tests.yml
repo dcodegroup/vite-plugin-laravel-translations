@@ -27,7 +27,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: ${{ inputs.node-version || vars.NODE_VERSION || 'v22.11.0' }}
+          node-version: ${{ inputs.node-version || vars.NODE_VERSION || 'v22.14.0' }}
           cache: 'npm'
 
       - name: Install dependencies
