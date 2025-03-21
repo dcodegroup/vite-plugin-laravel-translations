@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "target": "ES2019",
-    "module": "Node16",
-    "moduleResolution": "Node16",
+    "target": "ES2022",
+    "module": "ES2020",
+    "moduleResolution": "node",
     "strict": true,
     "sourceMap": true,
     "esModuleInterop": true,
@@ -12,7 +12,8 @@
     "noUncheckedIndexedAccess": true,
     "outDir": "dist",
     "rootDir": "src",
-    "typeRoots": ["./node_modules/@types", "./types"]
+    "typeRoots": ["./node_modules/@types", "./types"],
+    "skipLibCheck": true
   },
   "include": ["src/**/*.ts", "types"],
   "exclude": ["node_modules"]
