@@ -1,5 +1,11 @@
-import path from 'path';
-import { promises as fs } from 'fs';
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getLangDir = exports.determineLaravelVersion = void 0;
+const path_1 = __importDefault(require("path"));
+const fs_1 = require("fs");
 /**
  * 	Function: determineLaravelVersion()
  *	Description: Used to determine laravel version to determine
@@ -9,11 +15,11 @@ import { promises as fs } from 'fs';
  *
  * 	@return Promise<Error|Number> The current Laravel version
  */
-export const determineLaravelVersion = async (composerPath = 'composer.json') => {
+const determineLaravelVersion = async (composerPath = 'composer.json') => {
     // eslint-disable-next-line no-useless-catch
     try {
         // Read Composer.json to determine the file
-        const fileData = await fs.readFile(composerPath, 'utf8');
+        const fileData = await fs_1.promises.readFile(composerPath, 'utf8');
         // Extract Laravel Version
         const composer = JSON.parse(fileData);
         const laravelVersionRaw = composer.require['laravel/framework'];
@@ -29,6 +35,7 @@ export const determineLaravelVersion = async (composerPath = 'composer.json') =>
         throw exception;
     }
 };
+exports.determineLaravelVersion = determineLaravelVersion;
 /**
  * 	Function: getLangDir()
  * 	Description: Based on version, return the correct lang/
@@ -37,8 +44,8 @@ export const determineLaravelVersion = async (composerPath = 'composer.json') =>
  * 	@param laravelVersion number
  * 	@returns string
  */
-export const getLangDir = (laravelVersion = 9) => {
+const getLangDir = (laravelVersion = 9) => {
     // # Return: Absolute path to Laravel lang/ folder
-    return laravelVersion >= 9 ? path.resolve('lang/') : path.resolve('resources/lang');
+    return laravelVersion >= 9 ? path_1.default.resolve('lang/') : path_1.default.resolve('resources/lang');
 };
-//# sourceMappingURL=laravel.js.map
+exports.getLangDir = getLangDir;

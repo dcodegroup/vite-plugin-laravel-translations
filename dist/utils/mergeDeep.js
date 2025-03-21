@@ -1,3 +1,6 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.mergeDeep = void 0;
 /**
  *    Function: mergeDeep()
  *    Description: Method used to deeply merge objects that are nested.
@@ -7,7 +10,7 @@
  *    @returns target
  */
 // @ts-ignore - Unknown object definitions
-export const mergeDeep = (target, source) => {
+const mergeDeep = (target, source) => {
     // @ts-ignore - Unknown object definitions
     const isObject = (obj) => obj && typeof obj === 'object';
     if (!isObject(target) || !isObject(source)) {
@@ -20,7 +23,7 @@ export const mergeDeep = (target, source) => {
             target[key] = targetValue.concat(sourceValue);
         }
         else if (isObject(targetValue) && isObject(sourceValue)) {
-            target[key] = mergeDeep(Object.assign({}, targetValue), sourceValue);
+            target[key] = (0, exports.mergeDeep)(Object.assign({}, targetValue), sourceValue);
         }
         else {
             target[key] = sourceValue;
@@ -28,4 +31,4 @@ export const mergeDeep = (target, source) => {
     });
     return target;
 };
-//# sourceMappingURL=mergeDeep.js.map
+exports.mergeDeep = mergeDeep;

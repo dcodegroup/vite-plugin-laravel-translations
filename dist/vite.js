@@ -1,16 +1,19 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = laravelTranslations;
 /**
  * ##########################################
  * #			     IMPORTS	 			#
  * ##########################################
  */
-import { determineLaravelVersion, getLangDir } from './laravel.js';
-import { buildTranslations } from './loader.js';
+const laravel_js_1 = require("./laravel.js");
+const loader_js_1 = require("./loader.js");
 /**
  * ##########################################
  * #			  MAIN FUNCTION 			#
  * ##########################################
  */
-export default async function laravelTranslations(pluginConfiguration = {}) {
+async function laravelTranslations(pluginConfiguration = {}) {
     // # Define: Default Configurations
     const defaultConfigurations = {
         namespace: false,
@@ -18,9 +21,9 @@ export default async function laravelTranslations(pluginConfiguration = {}) {
         absoluteLanguageDirectory: null
     };
     // # Retrieve: Laravel Version
-    const laravelVersion = await determineLaravelVersion();
+    const laravelVersion = await (0, laravel_js_1.determineLaravelVersion)();
     // # Retrieve: Laravel Path (Absolute)
-    const absPathForLangDir = pluginConfiguration.absoluteLanguageDirectory || getLangDir(laravelVersion);
+    const absPathForLangDir = pluginConfiguration.absoluteLanguageDirectory || (0, laravel_js_1.getLangDir)(laravelVersion);
     return {
         // # Define: Plugin Name for Vite
         name: 'laravelTranslations',
@@ -29,7 +32,7 @@ export default async function laravelTranslations(pluginConfiguration = {}) {
             // # Merge: Configrations
             pluginConfiguration = Object.assign({}, defaultConfigurations, pluginConfiguration);
             // # Build: Translations
-            const translations = await buildTranslations(absPathForLangDir, pluginConfiguration);
+            const translations = await (0, loader_js_1.buildTranslations)(absPathForLangDir, pluginConfiguration);
             // # Define: Make available as global variable
             return {
                 define: {
@@ -48,4 +51,3 @@ export default async function laravelTranslations(pluginConfiguration = {}) {
         }
     };
 }
-//# sourceMappingURL=vite.js.map
