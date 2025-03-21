@@ -1,0 +1,39 @@
+name: Run tests
+
+concurrency:
+  group: tests-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+
+  workflow_dispatch:
+    inputs:
+      node-version:
+        type: string
+        required: false
+
+jobs:
+  tests:
+    # We can use "self-hosted" if needed to run private tests
+    runs-on: ${{ vars.RUNS_ON || fromJson('["self-hosted", "tests", "ubuntu-24.04"]') }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node-version || vars.NODE_VERSION || 'v22.11.0' }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          npm install
+
+      - name: Run tests
+        run: |
+          npm test
