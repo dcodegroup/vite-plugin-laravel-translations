@@ -15,6 +15,7 @@ export default async function laravelTranslations(pluginConfiguration = {}) {
     const defaultConfigurations = {
         namespace: false,
         includeJson: false,
+        assertJsonImport: false,
         absoluteLanguageDirectory: null
     };
     // # Retrieve: Laravel Version
