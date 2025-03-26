@@ -49,4 +49,3 @@ export default async function laravelTranslations(pluginConfiguration = {}) {
         }
     };
 }
-//# sourceMappingURL=vite.js.map
