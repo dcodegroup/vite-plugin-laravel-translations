@@ -36,7 +36,7 @@ export default async function laravelTranslations(pluginConfiguration: Translati
       pluginConfiguration = Object.assign({}, defaultConfigurations, pluginConfiguration);
 
       // # Assign: Translations as LARAVEL_TRANSLATIONS/import.meta.env.VITE_LARAVEL_TRANSLATIONS
-      const translationsVar = pluginConfiguration.useGlobalVar ? "import.meta.env.VITE_LARAVEL_TRANSLATIONS" : "LARAVEL_TRANSLATIONS";
+      const translationsVar = pluginConfiguration.useGlobalVar ? "LARAVEL_TRANSLATIONS" : "import.meta.env.VITE_LARAVEL_TRANSLATIONS";
       return {
         define: {
           [translationsVar]: await buildTranslations(absPathForLangDir, pluginConfiguration),
