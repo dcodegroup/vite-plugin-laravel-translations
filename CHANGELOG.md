@@ -15,6 +15,18 @@
 
 - Switched `LARAVEL_TRANSLATIONS` to use `import.meta.env` as `VITE_LARAVEL_TRANSLATIONS`:
 
+  ```js
+  // app.js
+  // 1. Create i18n instance with options
+  const i18n = VueI18n.createI18n({
+    locale: "ja", // set locale
+    fallbackLocale: "en", // set fallback locale
+    messages: import.meta.env.VITE_LARAVEL_TRANSLATIONS, // set locale messages
+    // If you need to specify other options, you can set other options
+    // ...
+  });
+  ```
+
   Please now use `import.meta.env.VITE_LARAVEL_TRANSLATIONS` instead of `LARAVEL_TRANSLATIONS` in your project or add the following to your `vite.config.ts`:
 
   ```js

@@ -225,3 +225,7 @@ const { default: translations } = await import(fullPath, { with: { type: "json" 
 ## Hot-Module Replacement (HMR)
 
 When running `vite` with dev server running, any changes on any detected `lang/` folder for `.{php,json}` files will restart `vite` dev server so that the language configurations can be updated.
+
+## Changes
+
+For any version and breaking changes please see <a href="CHANGELOG.md">CHANGELOG.md</a>.
