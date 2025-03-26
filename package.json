@@ -7,10 +7,24 @@
   "type": "module",
   "main": "dist/vite.js",
   "files": [
-    "./src/",
     "./dist/",
-    "./types/"
+    "./types/",
+    "README.md",
+    "package.json",
+    "tsconfig.json",
+    "vite.config.ts",
+    "eslint.config.ts",
+    ".prettierrc",
+    ".prettierignore"
   ],
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts",
+      "import": "./dist/vite.js",
+      "require": "./dist/vite.umd.cjs",
+      "default": "./dist/vite.js"
+    }
+  },
   "scripts": {
     "build": "vite build",
     "build:watch": "vite build --watch",

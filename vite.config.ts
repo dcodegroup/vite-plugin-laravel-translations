@@ -9,8 +9,6 @@ let NODE_BUILT_IN_MODULES = builtinModules.filter(
 );
 NODE_BUILT_IN_MODULES = [...NODE_BUILT_IN_MODULES.map((m) => `node:${m}`)];
 
-console.log(NODE_BUILT_IN_MODULES);
-
 // # Build/Export: Vite Configuration
 export default defineConfig(({ command, mode }) => {
   // # Return: Configuration
@@ -25,7 +23,7 @@ export default defineConfig(({ command, mode }) => {
         entry: {
           vite: resolve(__dirname, "./src/vite.ts"),
         },
-        name: "vite",
+        name: "vite-plugin-laravel-translations",
       },
       rollupOptions: {
         external: [...NODE_BUILT_IN_MODULES, "php-parser", "glob"],
@@ -43,6 +41,7 @@ export default defineConfig(({ command, mode }) => {
       dts({
         tsconfigPath: "./tsconfig.json",
         exclude: ["**/tests/**/*", "node_modules", "dist"],
+        rollupTypes: true,
       }),
     ],
   } satisfies UserConfig;
