@@ -25,21 +25,25 @@
 ## Installation
 
 With [pnpm](https://pnpm.io):
+
 ```sh
 pnpm i vite-plugin-laravel-translations
 ```
 
 with [npm](https://www.npmjs.com):
+
 ```sh
 npm i vite-plugin-laravel-translations
 ```
 
 or with [yarn](https://yarnpkg.com):
+
 ```sh
 yarn add vite-plugin-laravel-translations
 ```
 
 ## Setup with Vite
+
 ```js
 import laravelTranslations from 'vite-plugin-laravel-translations';
 
@@ -57,6 +61,7 @@ export default defineConfig({
 ```
 
 ## Usage in Vue 3.x.x
+
 For more information on usage with <b>vue-i18n</b> refer to <a href="https://vue-i18n.intlify.dev/guide/#javascript">https://vue-i18n.intlify.dev/guide/#javascript</a>.
 
 ```js
@@ -65,7 +70,7 @@ For more information on usage with <b>vue-i18n</b> refer to <a href="https://vue
 const i18n = VueI18n.createI18n({
   locale: 'ja', // set locale
   fallbackLocale: 'en', // set fallback locale
-  messages: LARAVEL_TRANSLATIONS, // set locale messages
+  messages: import.meta.env.VITE_LARAVEL_TRANSLATIONS, // set locale messages
   // If you need to specify other options, you can set other options
   // ...
 })
@@ -88,6 +93,7 @@ app.mount('#app')
 ```
 
 ## Usage in Vue 2.x.x
+
 ```js
 // app.js
 import VueI18n from 'vue-i18n';
@@ -98,7 +104,7 @@ Vue.config.productionTip = false;
 var i18n = new VueI18n({
   locale: 'en',
   fallbackLocale: 'en-gb',
-  messages: LARAVEL_TRANSLATIONS
+  messages: import.meta.env.VITE_LARAVEL_TRANSLATIONS
 });
 
 ...
@@ -111,10 +117,11 @@ new Vue({
 ```
 
 ## Usage in React
+
 This example uses `i18nnext` and `react-i18next` packages. Refer to <a href="https://dev.to/adrai/how-to-properly-internationalize-a-react-application-using-i18next-3hdb#getting-started">https://dev.to/adrai/how-to-properly-internationalize-a-react-application-using-i18next-3hdb#getting-started</a> for extended example.
 
-
 ### <b>Vite Config</b>
+
 ```js
 import laravelTranslations from 'vite-plugin-laravel-translations';
 
@@ -130,11 +137,12 @@ export default defineConfig({
 ```
 
 ### <b>Javascript</b>
+
 ```js
 // i18n.js
-import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
+import LanguageDetector from "i18next-browser-languagedetector";
 
 i18n
   // detect user language
@@ -146,35 +154,35 @@ i18n
   // for all options read: https://www.i18next.com/overview/configuration-options
   .init({
     debug: true,
-    fallbackLng: 'en',
+    fallbackLng: "en",
     interpolation: {
       escapeValue: false, // not needed for react as it escapes by default
     },
-    resources: LARAVEL_TRANSLATIONS
+    resources: import.meta.env.VITE_LARAVEL_TRANSLATIONS,
   });
 
 export default i18n;
 
-
 // index.js (React >= 18.0.0)
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-import './index.css';
-import App from './App';
+import React from "react";
+import { createRoot } from "react-dom/client";
+import "./index.css";
+import App from "./App";
 
-import './i18n';
+import "./i18n";
 
-const root = createRoot(document.getElementById('root'))
+const root = createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <App />
-  </React.StrictMode>
+  </React.StrictMode>,
 );
 ```
 
 ## Usage in JavaScript/NodeJS
+
 ```js
-const translations = LARAVEL_TRANSLATIONS;
+const translations = import.meta.env.VITE_LARAVEL_TRANSLATIONS;
 console.log(translations);
 ...
 ```
@@ -211,15 +219,9 @@ plugins: [
 When this option is enabled, the plugin will modify the `import` statement as follows:
 
 ```js
-const { default: translations } = await import(fullPath, { with: { type: 'json' } });
+const { default: translations } = await import(fullPath, { with: { type: "json" } });
 ```
 
 ## Hot-Module Replacement (HMR)
 
 When running `vite` with dev server running, any changes on any detected `lang/` folder for `.{php,json}` files will restart `vite` dev server so that the language configurations can be updated.
-
-
-## Known Issues/Caveats
-
-As the `LARAVEL_TRANSLATIONS` variable is globally available and read by Vite, if it's wrapped into a string it will cause issues on build. <b><i>DON'T DO:</i></b> `"LARAVEL_TRANSLATIONS"` or `'LARAVEL_TRANSLATIONS'`
-<br/><br/>E.g. `console.log("LARAVEL_TRANSLATIONS")`

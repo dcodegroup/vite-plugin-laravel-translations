@@ -1,15 +1,13 @@
 /**
- *    @function mergeDeep()
- *    @description Method used to deeply merge objects that are nested.
  *
- *    @param target - Main Object to merge into
- *    @param source - Object 2 containing data to merge into main object
- *    @returns target
+ * Deep merge two objects together.
+ *
+ * @param target - Target object to merge into
+ * @param source - Source object to merge from
+ * @returns object
  */
-// @ts-ignore - Unknown object definitions
-export const mergeDeep = (target, source) => {
-  // @ts-ignore - Unknown object definitions
-  const isObject = (obj) => obj && typeof obj === 'object';
+export const mergeDeep = (target: any, source: any) => {
+  const isObject = (obj: any) => obj && typeof obj === "object";
 
   if (!isObject(target) || !isObject(source)) {
     return source;

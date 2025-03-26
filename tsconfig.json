@@ -1,15 +1,16 @@
 {
   "compilerOptions": {
-    "target": "ES2019",
-    "module": "Node16",
-    "moduleResolution": "Node16",
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": ["ESNext", "DOM"],
     "strict": true,
     "sourceMap": true,
     "esModuleInterop": true,
-    "lib": ["ESNext", "DOM"],
     "declaration": true,
-    "noImplicitOverride": true,
-    "noUncheckedIndexedAccess": true,
+    "noEmit": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
     "outDir": "dist",
     "rootDir": "src",
     "typeRoots": ["./node_modules/@types", "./types"]

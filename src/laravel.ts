@@ -1,48 +1,42 @@
-import path from 'path';
-import { promises as fs } from 'fs';
+/**
+ * ------------------------------------------------
+ *  # Import: Dependencies
+ * ------------------------------------------------
+ */
+import { resolve } from "node:path";
+import { readFileSync } from "node:fs";
 
 /**
- * 	Function: determineLaravelVersion()
- *	Description: Used to determine laravel version to determine
- * 		the default path for language folder.
+ *	Determine laravel version for language folder.
  *
- * 	@param composerPath string (default: 'composer.json') The path to composer.json file, in case it's not in root.
- *
- * 	@return Promise<Error|Number> The current Laravel version
+ * 	@param composerPath string - Path to composer.json file
+ * 	@return number - Laravel Version
  */
-export const determineLaravelVersion = async (composerPath: string = 'composer.json'): Promise<number> => {
-  // eslint-disable-next-line no-useless-catch
+export const determineLaravelVersion = (composerPath: string = "composer.json"): number => {
   try {
-    // Read Composer.json to determine the file
-    const fileData = await fs.readFile(composerPath, 'utf8');
+    // # Read: Composer.json to determine the file
+    const fileData = readFileSync(composerPath, { encoding: "utf8" });
 
-    // Extract Laravel Version
+    // Extract: Laravel Version
     const composer = JSON.parse(fileData);
-    const laravelVersionRaw = composer.require['laravel/framework'];
 
-    // Extract Laravel Version using the first (0) index
-    const [laravelVersionString] = laravelVersionRaw.split('.');
+    // # Extract: Laravel Version using the first (0) index
+    const [laravelVersionString] = composer.require["laravel/framework"].split(".");
 
-    // Parse Laravel Version to Integer
-    const laravelVersion = parseInt(laravelVersionString.replace(/\D/g, ''));
-
-    // Return Laravel Version (e.g. 11)
-    return laravelVersion;
-  } catch (exception) {
+    // # Return: Laravel Version as Integer
+    return parseInt(laravelVersionString.replace(/\D/g, ""));
+  } catch (exception: any) {
     // Throw exception if composer.json file is not found
     throw exception;
   }
 };
 
 /**
- * 	Function: getLangDir()
- * 	Description: Based on version, return the correct lang/
- *		folder path in absolute form.
+ * 	Based on version, return the correct lang/folder path in
+ *  absolute form.
  *
  * 	@param laravelVersion number
- * 	@returns string
+ * 	@returns string - Absolute path to Laravel lang/ folder
+ *
  */
-export const getLangDir = (laravelVersion = 9) => {
-  // # Return: Absolute path to Laravel lang/ folder
-  return laravelVersion >= 9 ? path.resolve('lang/') : path.resolve('resources/lang');
-};
+export const getLangDir = (laravelVersion: number = 9) => (laravelVersion >= 9 ? resolve("lang/") : resolve("resources/lang"));

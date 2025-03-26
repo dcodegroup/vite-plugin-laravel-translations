@@ -1,7 +1,7 @@
 /**
- * ##########################################
- * #			        DECLARE TYPES 			      #
- * ##########################################
+ * ------------------------------------------------
+ *  # Declare: Package Definitions
+ * ------------------------------------------------
  */
 
 export declare interface TranslationConfiguration {
@@ -11,6 +11,7 @@ export declare interface TranslationConfiguration {
   assertJsonImport?: boolean; // Optional param to include JSON files using assert when importing translations
   absoluteLanguageDirectory?: string | null; // Optional param to override default langDir if needed
   interpolation?: InterpolationConfiguration | null;
+  useGlobalVar?: boolean; // Compatibility mode for older versions - v1.x.x uses import.meta.env.VITE_LARAVEL_TRANSLATIONS
 }
 
 export declare interface InterpolationConfiguration {

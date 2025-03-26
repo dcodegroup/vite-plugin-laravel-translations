@@ -1,17 +1,17 @@
 /**
- * ##########################################
- * #			     IMPORTS	 			#
- * ##########################################
+ * ------------------------------------------------
+ *  # Import: Dependencies
+ * ------------------------------------------------
  */
-import { determineLaravelVersion, getLangDir } from './laravel.js';
-import { buildTranslations } from './loader.js';
-import { TranslationConfiguration } from '../types/index.js';
-import type { HmrContext } from 'vite';
+import { determineLaravelVersion, getLangDir } from "./laravel";
+import { buildTranslations } from "./loader";
+import type { TranslationConfiguration } from "../types";
+import type { HmrContext, UserConfig } from "vite";
 
 /**
- * ##########################################
- * #			  MAIN FUNCTION 			#
- * ##########################################
+ * ------------------------------------------------
+ *  # Setup: Main Function
+ * ------------------------------------------------
  */
 export default async function laravelTranslations(pluginConfiguration: TranslationConfiguration = {}) {
   // # Define: Default Configurations
@@ -19,43 +19,38 @@ export default async function laravelTranslations(pluginConfiguration: Translati
     namespace: false,
     includeJson: false,
     assertJsonImport: false,
-    absoluteLanguageDirectory: null
+    absoluteLanguageDirectory: null,
+    useGlobalVar: false,
   };
 
-  // # Retrieve: Laravel Version
-  const laravelVersion = await determineLaravelVersion();
-
   // # Retrieve: Laravel Path (Absolute)
-  const absPathForLangDir = pluginConfiguration.absoluteLanguageDirectory || getLangDir(laravelVersion);
+  const absPathForLangDir = pluginConfiguration.absoluteLanguageDirectory || getLangDir(determineLaravelVersion());
 
   return {
     // # Define: Plugin Name for Vite
-    name: 'laravelTranslations',
+    name: "laravelTranslations",
 
     // # Plugin: Configuration Hook (like construct)
     async config() {
       // # Merge: Configrations
       pluginConfiguration = Object.assign({}, defaultConfigurations, pluginConfiguration);
 
-      // # Build: Translations
-      const translations = await buildTranslations(absPathForLangDir, pluginConfiguration);
-
-      // # Define: Make available as global variable
+      // # Assign: Translations as LARAVEL_TRANSLATIONS/import.meta.env.VITE_LARAVEL_TRANSLATIONS
+      const translationsVar = pluginConfiguration.useGlobalVar ? "import.meta.env.VITE_LARAVEL_TRANSLATIONS" : "LARAVEL_TRANSLATIONS";
       return {
         define: {
-          LARAVEL_TRANSLATIONS: translations
-        }
+          [translationsVar]: await buildTranslations(absPathForLangDir, pluginConfiguration),
+        },
       };
     },
     handleHotUpdate(context: HmrContext) {
       // # Determine: Regex to match based on configurations
       const fileMatchRegex = pluginConfiguration.includeJson ? /lang\/.*\.(?:php|json)$/ : /lang\/.*\.php$/;
 
-      // # Check: Match Regex
+      // # Trigger: Server Restart to pick up changes on file match
       if (fileMatchRegex.test(context.file)) {
-        // # Trigger: Server Restart to pick up changes
         context.server.restart();
       }
-    }
+    },
   };
 }
