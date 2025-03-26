@@ -192,6 +192,27 @@ plugins: [
 ],
 ```
 
+## Asserting JSON Imports
+
+When using `pnpm` as dependencies manager or when our `vite` file doesn't have a `.mts` o `.mjs` extension, we need to assert the JSON imports to prevent errors. This can be done by adding the following to the `vite.config.js` file:
+
+> [!IMPORTANT]
+> By default, this option is set to `false`.
+
+```js
+...
+plugins: [
+    laravelTranslations({
+        assertJsonImport: true,
+    }),
+],
+```
+
+When this option is enabled, the plugin will modify the `import` statement as follows:
+
+```js
+const { default: translations } = await import(fullPath, { with: { type: 'json' } });
+```
 
 ## Hot-Module Replacement (HMR)
 

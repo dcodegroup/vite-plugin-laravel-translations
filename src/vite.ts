@@ -18,6 +18,7 @@ export default async function laravelTranslations(pluginConfiguration: Translati
   const defaultConfigurations: TranslationConfiguration = {
     namespace: false,
     includeJson: false,
+    assertJsonImport: false,
     absoluteLanguageDirectory: null
   };
 

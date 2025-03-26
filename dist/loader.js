@@ -1,56 +1,16 @@
-"use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || (function () {
-    var ownKeys = function(o) {
-        ownKeys = Object.getOwnPropertyNames || function (o) {
-            var ar = [];
-            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
-            return ar;
-        };
-        return ownKeys(o);
-    };
-    return function (mod) {
-        if (mod && mod.__esModule) return mod;
-        var result = {};
-        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
-        __setModuleDefault(result, mod);
-        return result;
-    };
-})();
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.buildTranslations = exports.replaceInterpolation = exports.generateNestedObjectStructure = exports.translationContentByFileExtension = exports.configureNamespaceIfNeeded = exports.globPattern = void 0;
 // @ts-ignore - No types from JS package
-const php_array_reader_1 = require("php-array-reader");
-const glob_1 = require("glob");
-const path_1 = __importDefault(require("path"));
-const node_fs_1 = require("node:fs");
-const mergeDeep_1 = require("./utils/mergeDeep");
+import { fromString } from 'php-array-reader';
+import { globSync } from 'glob';
+import path from 'path';
+import { readFileSync } from 'node:fs';
+import { mergeDeep } from './utils/mergeDeep.js';
 /**
  * Get the glob pattern based on the configuration
  *
  * @param shouldIncludeJson - Should include JSON files
  * @returns string - The glob pattern
  */
-const globPattern = (shouldIncludeJson) => (shouldIncludeJson ? '**/*.{json,php}' : '**/*.php');
-exports.globPattern = globPattern;
+export const globPattern = (shouldIncludeJson) => (shouldIncludeJson ? '**/*.{json,php}' : '**/*.php');
 /**
  * Configure the namespace for the path split
  *
@@ -58,14 +18,13 @@ exports.globPattern = globPattern;
  * @param namespace - The namespace
  * @returns string[] - The path split with the namespace
  */
-const configureNamespaceIfNeeded = (pathSplit, namespace) => {
+export const configureNamespaceIfNeeded = (pathSplit, namespace) => {
     if (namespace && namespace.length > 0) {
         // Append configured namespace
         pathSplit.splice(1, 0, namespace);
     }
     return pathSplit;
 };
-exports.configureNamespaceIfNeeded = configureNamespaceIfNeeded;
 /**
  * Get the translation content by file extension
  *
@@ -73,14 +32,16 @@ exports.configureNamespaceIfNeeded = configureNamespaceIfNeeded;
  * @param file - The file path
  * @returns Promise<any> - The translation content
  */
-const translationContentByFileExtension = async (fileExtension, file) => {
+export const translationContentByFileExtension = async (fileExtension, file, assertJsonImport) => {
     if (fileExtension === '.php') {
-        return (0, php_array_reader_1.fromString)((0, node_fs_1.readFileSync)(file, 'utf8'));
+        return fromString(readFileSync(file, 'utf8'));
     }
     const fullPath = `${process.cwd()}/${file}`;
-    return await Promise.resolve(`${fullPath}`).then(s => __importStar(require(s)));
+    // When using `pnpm` as package manager or we don't have the `.{mjs,mts}` extension in the vite config file
+    // the import statement does not work as expected and the `import` function does not have the `with` property
+    const { default: translations } = await import(fullPath, { ...(assertJsonImport && { with: { type: 'json' } }) });
+    return translations;
 };
-exports.translationContentByFileExtension = translationContentByFileExtension;
 /**
  * Generate the nested object structure
  *
@@ -89,8 +50,7 @@ exports.translationContentByFileExtension = translationContentByFileExtension;
  * @returns - The nested object structure
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const generateNestedObjectStructure = (pathSplit, all) => pathSplit.reverse().reduce((all, item) => ({ [item]: all }), all);
-exports.generateNestedObjectStructure = generateNestedObjectStructure;
+export const generateNestedObjectStructure = (pathSplit, all) => pathSplit.reverse().reduce((all, item) => ({ [item]: all }), all);
 /**
  * Replace the interpolation with provided prefix and suffix
  *
@@ -98,49 +58,59 @@ exports.generateNestedObjectStructure = generateNestedObjectStructure;
  * @param interpolation - An object with prefix and suffix to be used by interpolation
  * @returns - The object structure with the new interpolation
  */
-const replaceInterpolation = (object, interpolation) => {
-    let objectAsString = JSON.stringify(object);
-    objectAsString = objectAsString.replace(/\:(\w+)/g, `${interpolation.prefix}$1${interpolation.suffix}`);
+export const replaceInterpolation = (object, interpolation) => {
+    const interpolatedContent = `${interpolation.prefix}$1${interpolation.suffix}`;
+    const objectAsString = JSON.stringify(object).replace(/:(\w+)/g, interpolatedContent);
     return JSON.parse(objectAsString);
 };
-exports.replaceInterpolation = replaceInterpolation;
 /**
- *    Function: buildTranslations()
- *    Description: Main function that fetches all of the Laravel translations
+ *    @function buildTranslations()
+ *    @description Main function that fetches all of the Laravel translations
  *        and creates appropiate nested objects for.
  *
  *    @param absLangPath - The absolute path to Laravel lang/ directory
  *    @param pluginConfiguration - Plugin configurations
  *    @returns translations - Object/JSON version of Laravel Translations
  */
-const buildTranslations = async (absLangPath, pluginConfiguration) => {
+export const buildTranslations = async (absLangPath, pluginConfiguration) => {
     // Define the language directory
     const langDir = pluginConfiguration.absoluteLanguageDirectory || absLangPath;
     // Define the glob pattern
-    const globRegex = (0, exports.globPattern)(pluginConfiguration.includeJson || false);
+    const globRegex = globPattern(pluginConfiguration.includeJson || false);
     // Fetch filenames as an array
-    const files = (0, glob_1.globSync)(path_1.default.join(langDir, globRegex), { windowsPathsNoEscape: true });
+    const files = globSync(path.join(langDir, globRegex), { windowsPathsNoEscape: true });
     // Define initial translations
     const initialTranslations = Promise.resolve({});
     // Create translations object
     const translations = await files.reduce(async (accumulator, file) => {
-        const { sep: pathSeparator } = path_1.default;
+        const { sep: pathSeparator } = path;
         // Wait for the accumulator to resolve
         const translations = await accumulator;
         // Extract the file path
         const fileRaw = file.replace(langDir + pathSeparator, '');
         // Extract the file extension
-        const fileExtension = path_1.default.extname(fileRaw);
+        const fileExtension = path.extname(fileRaw);
         // Extract the path split
         const pathSplit = fileRaw.replace(fileExtension, '').split(pathSeparator);
-        let translationContent = await (0, exports.translationContentByFileExtension)(fileExtension, file);
-        if (pluginConfiguration.interpolation?.prefix && pluginConfiguration.interpolation?.suffix) {
-            translationContent = (0, exports.replaceInterpolation)(translationContent, pluginConfiguration.interpolation);
-        }
-        const namespacePath = (0, exports.configureNamespaceIfNeeded)(pathSplit, pluginConfiguration.namespace || '');
-        const currentTranslationStructure = (0, exports.generateNestedObjectStructure)(namespacePath, translationContent);
-        return (0, mergeDeep_1.mergeDeep)(translations, currentTranslationStructure);
+        // Build the translation content
+        const translationContent = await buildContentInterpolation({
+            file,
+            fileExtension,
+            pluginConfiguration
+        });
+        const namespacePath = configureNamespaceIfNeeded(pathSplit, pluginConfiguration.namespace);
+        const currentTranslationStructure = generateNestedObjectStructure(namespacePath, translationContent);
+        return mergeDeep(translations, currentTranslationStructure);
     }, initialTranslations);
     return translations;
 };
-exports.buildTranslations = buildTranslations;
+const buildContentInterpolation = async ({ file, fileExtension, pluginConfiguration }) => {
+    var _a, _b;
+    // Fetch the translation content
+    const translationContent = await translationContentByFileExtension(fileExtension, file, pluginConfiguration.assertJsonImport);
+    // Check if the interpolation is configured
+    if (((_a = pluginConfiguration.interpolation) === null || _a === void 0 ? void 0 : _a.prefix) && ((_b = pluginConfiguration.interpolation) === null || _b === void 0 ? void 0 : _b.suffix)) {
+        return replaceInterpolation(translationContent, pluginConfiguration.interpolation);
+    }
+    return translationContent;
+};

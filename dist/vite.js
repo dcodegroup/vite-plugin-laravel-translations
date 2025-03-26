@@ -1,29 +1,27 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = laravelTranslations;
 /**
  * ##########################################
  * #			     IMPORTS	 			#
  * ##########################################
  */
-const laravel_js_1 = require("./laravel.js");
-const loader_js_1 = require("./loader.js");
+import { determineLaravelVersion, getLangDir } from './laravel.js';
+import { buildTranslations } from './loader.js';
 /**
  * ##########################################
  * #			  MAIN FUNCTION 			#
  * ##########################################
  */
-async function laravelTranslations(pluginConfiguration = {}) {
+export default async function laravelTranslations(pluginConfiguration = {}) {
     // # Define: Default Configurations
     const defaultConfigurations = {
         namespace: false,
         includeJson: false,
+        assertJsonImport: false,
         absoluteLanguageDirectory: null
     };
     // # Retrieve: Laravel Version
-    const laravelVersion = await (0, laravel_js_1.determineLaravelVersion)();
+    const laravelVersion = await determineLaravelVersion();
     // # Retrieve: Laravel Path (Absolute)
-    const absPathForLangDir = pluginConfiguration.absoluteLanguageDirectory || (0, laravel_js_1.getLangDir)(laravelVersion);
+    const absPathForLangDir = pluginConfiguration.absoluteLanguageDirectory || getLangDir(laravelVersion);
     return {
         // # Define: Plugin Name for Vite
         name: 'laravelTranslations',
@@ -32,7 +30,7 @@ async function laravelTranslations(pluginConfiguration = {}) {
             // # Merge: Configrations
             pluginConfiguration = Object.assign({}, defaultConfigurations, pluginConfiguration);
             // # Build: Translations
-            const translations = await (0, loader_js_1.buildTranslations)(absPathForLangDir, pluginConfiguration);
+            const translations = await buildTranslations(absPathForLangDir, pluginConfiguration);
             // # Define: Make available as global variable
             return {
                 define: {
