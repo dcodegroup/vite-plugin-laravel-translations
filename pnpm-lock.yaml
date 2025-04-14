@@ -26,7 +26,7 @@ importers:
         version: 9.6.1
       '@types/node':
         specifier: ^22.13.13
-        version: 22.13.13
+        version: 22.14.1
       '@typescript-eslint/eslint-plugin':
         specifier: ^8.28.0
         version: 8.28.0(@typescript-eslint/parser@8.28.0(eslint@9.23.0(jiti@2.4.2))(typescript@5.8.2))(eslint@9.23.0(jiti@2.4.2))(typescript@5.8.2)
@@ -62,10 +62,10 @@ importers:
         version: 8.28.0(eslint@9.23.0(jiti@2.4.2))(typescript@5.8.2)
       vite:
         specifier: ^6.2.3
-        version: 6.2.3(@types/node@22.13.13)(jiti@2.4.2)
+        version: 6.2.3(@types/node@22.14.1)(jiti@2.4.2)
       vite-plugin-dts:
         specifier: ^4.5.3
-        version: 4.5.3(@types/node@22.13.13)(rollup@4.37.0)(typescript@5.8.2)(vite@6.2.3(@types/node@22.13.13)(jiti@2.4.2))
+        version: 4.5.3(@types/node@22.14.1)(rollup@4.37.0)(typescript@5.8.2)(vite@6.2.3(@types/node@22.14.1)(jiti@2.4.2))
 
 packages:
 
@@ -587,8 +587,8 @@ packages:
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
 
-  '@types/node@22.13.13':
-    resolution: {integrity: sha512-ClsL5nMwKaBRwPcCvH8E7+nU4GxHVx1axNvMZTFHMEfNI7oahimt26P5zjVCRrjiIWj6YFXfE1v3dEp94wLcGQ==}
+  '@types/node@22.14.1':
+    resolution: {integrity: sha512-u0HuPQwe/dHrItgHHpmw3N2fYCR6x4ivMNbPHRkBVP4CvN+kiRrKHWk3i8tXiO/joPwXLMYvF9TTF0eqgHIuOw==}
 
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
@@ -2090,8 +2090,8 @@ packages:
     engines: {node: '>=0.8.0'}
     hasBin: true
 
-  undici-types@6.20.0:
-    resolution: {integrity: sha512-Ny6QZ2Nju20vw1SRHe3d9jVu6gJ+4e3+MMpqu7pqE5HT6WsTSlce++GQmK5UXS8mzV8DSYHrQH+Xrf2jVcuKNg==}
+  undici-types@6.21.0:
+    resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
 
   unicode-emoji-modifier-base@1.0.0:
     resolution: {integrity: sha512-yLSH4py7oFH3oG/9K+XWrz1pSi3dfUrWEnInbxMfArOfc1+33BlGPQtLsOYwvdMy11AwUBetYuaRxSPqgkq+8g==}
@@ -2403,23 +2403,23 @@ snapshots:
 
   '@jridgewell/sourcemap-codec@1.5.0': {}
 
-  '@microsoft/api-extractor-model@7.30.5(@types/node@22.13.13)':
+  '@microsoft/api-extractor-model@7.30.5(@types/node@22.14.1)':
     dependencies:
       '@microsoft/tsdoc': 0.15.1
       '@microsoft/tsdoc-config': 0.17.1
-      '@rushstack/node-core-library': 5.13.0(@types/node@22.13.13)
+      '@rushstack/node-core-library': 5.13.0(@types/node@22.14.1)
     transitivePeerDependencies:
       - '@types/node'
 
-  '@microsoft/api-extractor@7.52.2(@types/node@22.13.13)':
+  '@microsoft/api-extractor@7.52.2(@types/node@22.14.1)':
     dependencies:
-      '@microsoft/api-extractor-model': 7.30.5(@types/node@22.13.13)
+      '@microsoft/api-extractor-model': 7.30.5(@types/node@22.14.1)
       '@microsoft/tsdoc': 0.15.1
       '@microsoft/tsdoc-config': 0.17.1
-      '@rushstack/node-core-library': 5.13.0(@types/node@22.13.13)
+      '@rushstack/node-core-library': 5.13.0(@types/node@22.14.1)
       '@rushstack/rig-package': 0.5.3
-      '@rushstack/terminal': 0.15.2(@types/node@22.13.13)
-      '@rushstack/ts-command-line': 4.23.7(@types/node@22.13.13)
+      '@rushstack/terminal': 0.15.2(@types/node@22.14.1)
+      '@rushstack/ts-command-line': 4.23.7(@types/node@22.14.1)
       lodash: 4.17.21
       minimatch: 3.0.8
       resolve: 1.22.10
@@ -2591,7 +2591,7 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.37.0':
     optional: true
 
-  '@rushstack/node-core-library@5.13.0(@types/node@22.13.13)':
+  '@rushstack/node-core-library@5.13.0(@types/node@22.14.1)':
     dependencies:
       ajv: 8.13.0
       ajv-draft-04: 1.0.0(ajv@8.13.0)
@@ -2602,23 +2602,23 @@ snapshots:
       resolve: 1.22.10
       semver: 7.5.4
     optionalDependencies:
-      '@types/node': 22.13.13
+      '@types/node': 22.14.1
 
   '@rushstack/rig-package@0.5.3':
     dependencies:
       resolve: 1.22.10
       strip-json-comments: 3.1.1
 
-  '@rushstack/terminal@0.15.2(@types/node@22.13.13)':
+  '@rushstack/terminal@0.15.2(@types/node@22.14.1)':
     dependencies:
-      '@rushstack/node-core-library': 5.13.0(@types/node@22.13.13)
+      '@rushstack/node-core-library': 5.13.0(@types/node@22.14.1)
       supports-color: 8.1.1
     optionalDependencies:
-      '@types/node': 22.13.13
+      '@types/node': 22.14.1
 
-  '@rushstack/ts-command-line@4.23.7(@types/node@22.13.13)':
+  '@rushstack/ts-command-line@4.23.7(@types/node@22.14.1)':
     dependencies:
-      '@rushstack/terminal': 0.15.2(@types/node@22.13.13)
+      '@rushstack/terminal': 0.15.2(@types/node@22.14.1)
       '@types/argparse': 1.0.38
       argparse: 1.0.10
       string-argv: 0.3.2
@@ -2717,9 +2717,9 @@ snapshots:
 
   '@types/json-schema@7.0.15': {}
 
-  '@types/node@22.13.13':
+  '@types/node@22.14.1':
     dependencies:
-      undici-types: 6.20.0
+      undici-types: 6.21.0
 
   '@types/normalize-package-data@2.4.4': {}
 
@@ -4183,7 +4183,7 @@ snapshots:
   uglify-js@3.19.3:
     optional: true
 
-  undici-types@6.20.0: {}
+  undici-types@6.21.0: {}
 
   unicode-emoji-modifier-base@1.0.0: {}
 
@@ -4212,9 +4212,9 @@ snapshots:
       spdx-correct: 3.2.0
       spdx-expression-parse: 3.0.1
 
-  vite-plugin-dts@4.5.3(@types/node@22.13.13)(rollup@4.37.0)(typescript@5.8.2)(vite@6.2.3(@types/node@22.13.13)(jiti@2.4.2)):
+  vite-plugin-dts@4.5.3(@types/node@22.14.1)(rollup@4.37.0)(typescript@5.8.2)(vite@6.2.3(@types/node@22.14.1)(jiti@2.4.2)):
     dependencies:
-      '@microsoft/api-extractor': 7.52.2(@types/node@22.13.13)
+      '@microsoft/api-extractor': 7.52.2(@types/node@22.14.1)
       '@rollup/pluginutils': 5.1.4(rollup@4.37.0)
       '@volar/typescript': 2.4.12
       '@vue/language-core': 2.2.0(typescript@5.8.2)
@@ -4225,19 +4225,19 @@ snapshots:
       magic-string: 0.30.17
       typescript: 5.8.2
     optionalDependencies:
-      vite: 6.2.3(@types/node@22.13.13)(jiti@2.4.2)
+      vite: 6.2.3(@types/node@22.14.1)(jiti@2.4.2)
     transitivePeerDependencies:
       - '@types/node'
       - rollup
       - supports-color
 
-  vite@6.2.3(@types/node@22.13.13)(jiti@2.4.2):
+  vite@6.2.3(@types/node@22.14.1)(jiti@2.4.2):
     dependencies:
       esbuild: 0.25.1
       postcss: 8.5.3
       rollup: 4.37.0
     optionalDependencies:
-      '@types/node': 22.13.13
+      '@types/node': 22.14.1
       fsevents: 2.3.3
       jiti: 2.4.2
 
