@@ -19,7 +19,6 @@ on:
 
 jobs:
   tests:
-    # We can use "self-hosted" if needed to run private tests
     runs-on: ${{ vars.RUNS_ON || 'ubuntu-24.04' }}
 
     steps:
