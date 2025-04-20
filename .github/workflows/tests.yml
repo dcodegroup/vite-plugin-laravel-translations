@@ -20,7 +20,7 @@ on:
 jobs:
   tests:
     # We can use "self-hosted" if needed to run private tests
-    runs-on: ${{ vars.RUNS_ON || fromJson('["self-hosted", "tests", "ubuntu-24.04"]') }}
+    runs-on: ${{ vars.RUNS_ON || 'ubuntu-24.04' }}
 
     steps:
       - uses: actions/checkout@v4
@@ -28,7 +28,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ inputs.node-version || vars.NODE_VERSION || 'v22.14.0' }}
-          cache: 'npm'
+          cache: npm
 
       - name: Install dependencies
         run: |
@@ -36,4 +36,4 @@ jobs:
 
       - name: Run tests
         run: |
-          npm test
+          npm run test
