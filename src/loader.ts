@@ -26,7 +26,11 @@ const globPattern = (shouldIncludeJson: boolean): string => (shouldIncludeJson ?
  * @returns string[] - The path split with the namespace
  */
 const configureNamespaceIfNeeded = (pathSplit: string[], namespace?: string | null | false): string[] => {
-  return namespace && namespace.length > 0 && pathSplit.splice(1, 0, namespace), pathSplit;
+  if (namespace && namespace.length > 0) {
+    pathSplit.splice(1, 0, namespace);
+  }
+
+  return pathSplit;
 };
 
 /**
