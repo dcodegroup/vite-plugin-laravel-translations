@@ -6,7 +6,7 @@
 import { determineLaravelVersion, getLangDir } from "./laravel";
 import { buildTranslations } from "./loader";
 import type { TranslationConfiguration } from "../types";
-import type { HmrContext, UserConfig } from "vite";
+import type { HmrContext } from "vite";
 
 /**
  * ------------------------------------------------
