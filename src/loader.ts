@@ -16,7 +16,7 @@ import { TranslationConfiguration, InterpolationConfiguration, TranslationConten
  * @param shouldIncludeJson - Should include JSON files
  * @returns string - The glob pattern
  */
-const globPattern = (shouldIncludeJson: boolean): string => (shouldIncludeJson ? "**/*.{json,php}" : "**/*.php");
+export const globPattern = (shouldIncludeJson: boolean): string => (shouldIncludeJson ? "**/*.{json,php}" : "**/*.php");
 
 /**
  * Configure the namespace for the path split
@@ -25,8 +25,12 @@ const globPattern = (shouldIncludeJson: boolean): string => (shouldIncludeJson ?
  * @param namespace - The namespace
  * @returns string[] - The path split with the namespace
  */
-const configureNamespaceIfNeeded = (pathSplit: string[], namespace?: string | null | false): string[] => {
-  return namespace && namespace.length > 0 ? pathSplit.splice(1, 0, namespace) : pathSplit;
+export const configureNamespaceIfNeeded = (pathSplit: string[], namespace?: string | null | false): string[] => {
+  if (namespace && namespace.length > 0) {
+    pathSplit.splice(1, 0, namespace);
+  }
+
+  return pathSplit;
 };
 
 /**
@@ -36,7 +40,7 @@ const configureNamespaceIfNeeded = (pathSplit: string[], namespace?: string | nu
  * @param file - The file path
  * @returns Promise<any> - The translation content
  */
-const translationContentByFileExtension = async (fileExtension: string, file: string, assertJsonImport: boolean | undefined): Promise<string> => {
+export const translationContentByFileExtension = async (fileExtension: string, file: string, assertJsonImport?: boolean | undefined): Promise<string> => {
   if (fileExtension === ".php") {
     return fromString(readFileSync(file, "utf8"));
   }
@@ -56,7 +60,7 @@ const translationContentByFileExtension = async (fileExtension: string, file: st
  * @param all - The all object
  * @returns - The nested object structure
  */
-const generateNestedObjectStructure = (pathSplit: string[], all: any): object => pathSplit.reverse().reduce((all, item) => ({ [item]: all }), all);
+export const generateNestedObjectStructure = (pathSplit: string[], all: any): object => pathSplit.reverse().reduce((all, item) => ({ [item]: all }), all);
 
 /**
  * Replace the interpolation with provided prefix and suffix
@@ -65,7 +69,7 @@ const generateNestedObjectStructure = (pathSplit: string[], all: any): object =>
  * @param interpolation - An object with prefix and suffix to be used by interpolation
  * @returns - The object structure with the new interpolation
  */
-const replaceInterpolation = (object: unknown, interpolation: InterpolationConfiguration): string => {
+export const replaceInterpolation = (object: unknown, interpolation: InterpolationConfiguration): string => {
   const interpolatedContent = `${interpolation.prefix}$1${interpolation.suffix}`;
   const objectAsString = JSON.stringify(object).replace(/:(\w+)/g, interpolatedContent);
   return JSON.parse(objectAsString);
