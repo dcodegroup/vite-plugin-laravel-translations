@@ -51,7 +51,7 @@ describe("Loader feature", () => {
     it("should return the path split with the namespace", () => {
       // Given
       // When the namespace is provided, the path split is ommitted
-      const expectedPathSplit = [];
+      const expectedPathSplit = ["path", "namespace", "to", "file"];
       const pathSplit = ["path", "to", "file"];
       const namespace = "namespace";
 
@@ -138,16 +138,30 @@ describe("Loader feature", () => {
       const absLangPath = "tests/fixtures";
       const pluginConfiguration = {
         includeJson: true,
-        namespace: "namespace",
+        namespace: "testingNamespace",
       };
       const expectedTranslations = {
-        // This is a combination from JSON and PHP files
-        key1: "value1",
-        key2: "value2",
-        key: "Value",
-        "another-key": "Another value",
-        "php-key": "php",
-        "key-from-php": "value-from-php",
+        // This is the namespace
+        translations: {
+          testingNamespace: {
+            key1: "value1",
+            key2: "value2",
+          },
+        },
+        // This is the namespace
+        "translations-for-build-test-json": {
+          testingNamespace: {
+            key: "Value",
+            "another-key": "Another value",
+          },
+        },
+        // This is the namespace
+        "translations-for-build-test-php": {
+          testingNamespace: {
+            "key-from-php": "value-from-php",
+            "php-key": "php",
+          },
+        },
       };
 
       // When
