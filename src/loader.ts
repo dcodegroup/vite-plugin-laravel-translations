@@ -25,8 +25,13 @@ export const globPattern = (shouldIncludeJson: boolean): string => (shouldInclud
  * @param namespace - The namespace
  * @returns string[] - The path split with the namespace
  */
-export const configureNamespaceIfNeeded = (pathSplit: string[], namespace?: string | null | false): string[] =>
-  namespace && namespace.length > 0 ? pathSplit.splice(1, 0, namespace) : pathSplit;
+export const configureNamespaceIfNeeded = (pathSplit: string[], namespace?: string | null | false): string[] => {
+  if (namespace && namespace.length > 0) {
+    pathSplit.splice(1, 0, namespace);
+  }
+
+  return pathSplit;
+};
 
 /**
  * Get the translation content by file extension
