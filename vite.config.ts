@@ -2,11 +2,10 @@
 import { defineConfig, UserConfig } from "vite";
 import { builtinModules } from "node:module";
 import { resolve } from "node:path";
-import dts from "vite-plugin-dts";
 
-const NODE_BUILT_IN_MODULES = builtinModules.filter(
-  (m) => !m.startsWith("_") && ["fs", "fs/promises", "path", "url", "events", "stream", "string_decoder"].includes(m),
-).map((m) => `node:${m}`);
+const NODE_BUILT_IN_MODULES = builtinModules
+  .filter((m) => !m.startsWith("_") && ["fs", "fs/promises", "path", "url", "events", "stream", "string_decoder"].includes(m))
+  .map((m) => `node:${m}`);
 
 // # Build/Export: Vite Configuration
 export default defineConfig(({ command, mode }) => {
@@ -36,12 +35,6 @@ export default defineConfig(({ command, mode }) => {
         "@": resolve(__dirname, "src"),
       },
     },
-    plugins: [
-      dts({
-        tsconfigPath: "./tsconfig.json",
-        exclude: ["**/tests/**/*", "node_modules", "dist"],
-        rollupTypes: true,
-      }),
-    ],
+    plugins: [],
   } satisfies UserConfig;
 });
