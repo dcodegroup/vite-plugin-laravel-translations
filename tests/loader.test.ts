@@ -67,7 +67,7 @@ describe("Loader feature", () => {
     it("should return the translation content for PHP files", async () => {
       // Given
       const fileExtension = ".php";
-      const file = "tests/fixtures/translations.php";
+      const file = "tests/fixtures/translations/translations.php";
       const expectedContent = { key1: "value1", key2: "value2" };
 
       // When
@@ -80,7 +80,7 @@ describe("Loader feature", () => {
     it("should return the translation content for JSON files", async () => {
       // Given
       const fileExtension = ".json";
-      const file = "tests/fixtures/translations.json";
+      const file = "tests/fixtures/translations/translations.json";
       const expectedContent = { key1: "value1", key2: "value2" };
 
       // When
@@ -135,7 +135,7 @@ describe("Loader feature", () => {
   describe("buildTranslations function", () => {
     it("should return the translations object using namespace", async () => {
       // Given
-      const absLangPath = "tests/fixtures";
+      const absLangPath = "tests/fixtures/translations";
       const pluginConfiguration = {
         includeJson: true,
         namespace: "testingNamespace",
@@ -175,7 +175,7 @@ describe("Loader feature", () => {
   describe("buildTranslations function without namespace", () => {
     it("should return the translations object without using namespace", async () => {
       // Given
-      const absLangPath = "tests/fixtures";
+      const absLangPath = "tests/fixtures/translations";
       const pluginConfiguration = {
         includeJson: true,
       };
